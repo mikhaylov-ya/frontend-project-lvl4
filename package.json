@@ -1,0 +1,23 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Chat app",
+  "main": "index.js",
+  "scripts": {
+    "start": "start-server -a localhost -p 5001 -s ./frontend/build",
+    "build": "npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikhaylov-ya/frontend-project-lvl4.git"
+  },
+  "author": "Mikhaylov Y.K.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikhaylov-ya/frontend-project-lvl4/issues"
+  },
+  "homepage": "https://github.com/mikhaylov-ya/frontend-project-lvl4#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
+}
