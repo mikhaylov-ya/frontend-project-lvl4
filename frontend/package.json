@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "npx start-server -p 5001 -s /build",
-    "build": "react-scripts build",
+    "build": "npx react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
