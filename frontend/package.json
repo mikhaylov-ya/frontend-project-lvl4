@@ -8,10 +8,11 @@
     "@emotion/styled": "^11.10.0",
     "@fontsource/roboto": "^4.5.7",
     "@mui/material": "^5.9.3",
+    "axios": "^0.27.2",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.3",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
