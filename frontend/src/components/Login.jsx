@@ -21,6 +21,7 @@ const LoginForm = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const fromPage = location?.state?.from?.pathname || '/';
 
   const formik = useFormik({
     initialValues: {
@@ -47,7 +48,7 @@ const LoginForm = () => {
 
   return (
     <Container className="bg-light border">
-      <h1>Log In</h1>
+      <h1>{fromPage}</h1>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           color="primary"

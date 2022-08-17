@@ -7,10 +7,10 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { useState, useContext } from 'react';
-import Login from './routes/Login.jsx';
-import Home from './routes/Home.jsx';
-import PageNotFound from './routes/PageNotFound.jsx';
-import AuthContext from './contexts/auth.jsx';
+import Login from './Login.jsx';
+import Home from './Home.jsx';
+import PageNotFound from './PageNotFound.jsx';
+import AuthContext from '../contexts/auth.jsx';
 
 const AuthProvider = ({ children }) => {
   const userData = localStorage.getItem('userData');
@@ -58,9 +58,7 @@ const App = () => {
             <Link to="login">Log In</Link>
           </nav>
           <Routes>
-            <PrivateRoute>
-              <Route element={<Home />} path="/" />
-            </PrivateRoute>
+            <Route element={<PrivateRoute><Home /></PrivateRoute>} path="/" />
             <Route element={<Login />} path="login" />
             <Route element={<PageNotFound />} path="*" />
           </Routes>

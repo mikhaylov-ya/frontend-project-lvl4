@@ -12,7 +12,7 @@ deploy:
 
 build-frontend:
 	cd frontend
-	npm run build
+	DISABLE_ESLINT_PLUGIN=true npm run build
 
 lint:
 	npx eslint frontend/src

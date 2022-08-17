@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Chat app",
   "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "start-server -a localhost -p 5001 -s ./frontend/build",
-    "build": "cd frontend/ && npm install && npm run build"
+    "build": "cd frontend/ && npm install && DISABLE_ESLINT_PLUGIN=true npm run build"
   },
   "repository": {
     "type": "git",
