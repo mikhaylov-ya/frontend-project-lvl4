@@ -3,13 +3,13 @@ import { createContext, useState, useMemo } from 'react';
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const { userData = null } = localStorage;
-  console.table('user data from storage', userData);
-  const username = JSON.parse(userData)?.username;
+  const userData = JSON.parse(`${localStorage.getItem('userData')}`);
+  console.table('user data from storage:', userData);
+  const username = userData?.username;
   const [currUser, setUser] = useState(username ? { username } : null);
 
   const logIn = (user) => {
-    localStorage.userData = JSON.stringify(user);
+    localStorage.setItem('userData', JSON.stringify(user));
     setUser({ username: user.username });
   };
 

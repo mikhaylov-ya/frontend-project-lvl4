@@ -40,10 +40,10 @@ const LoginForm = () => {
     onSubmit: (values, { setErrors, setSubmitting }) => {
       axios.post(routes.loginPath(), values)
         .then(({ data }) => {
-          console.log('server response', data);
           auth.logIn(data);
-          const fromPage = location?.state?.from?.pathname || '/';
-          navigate(fromPage);
+          const fromPage = location?.state?.from?.pathname ?? '/';
+          console.log(fromPage);
+          navigate(fromPage, { replace: true });
         })
         .catch((e) => {
           console.error(e);
