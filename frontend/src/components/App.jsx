@@ -1,71 +1,36 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
 import {
   Routes,
   Route,
   BrowserRouter,
-  Link,
   Navigate,
+  useLocation,
 } from 'react-router-dom';
-import { useState, useContext } from 'react';
 import Login from './Login.jsx';
 import Home from './Home.jsx';
 import PageNotFound from './PageNotFound.jsx';
-import AuthContext from '../contexts/auth.jsx';
-
-const AuthProvider = ({ children }) => {
-  const userData = localStorage.getItem('userData');
-  const [currUser, setUser] = useState({ username: userData?.username ?? null });
-
-  const logIn = (user) => {
-    localStorage.setItem('userData', JSON.stringify(user));
-    setUser({ username: user.username });
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('userData');
-    setUser(null);
-  };
-
-  const getAuthHeader = () => {
-    const user = JSON.parse(localStorage.getItem('userData'));
-    return (user && user.token) ? { Authorization: `Bearer ${user.token}` } : {};
-  };
-
-  return (
-    <AuthContext.Provider value={{
-      logIn, logOut, getAuthHeader, currUser,
-    }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+import AuthProvider from './AuthProvider.jsx';
+import useAuth from '../hooks/useAuth.jsx';
+import Navigation from './Navigation.jsx';
 
 const PrivateRoute = ({ children }) => {
-  const auth = useContext(AuthContext);
-
-  return auth.loggedIn ? children : <Navigate to="/login" />;
+  const { currUser } = useAuth();
+  const location = useLocation();
+  console.dir(currUser);
+  return currUser?.username ? children : <Navigate to="/login" state={{ from: location }} />;
 };
 
-const App = () => {
-  console.log(3);
-  return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div>
-          <nav style={{ borderBottom: 'solid 1px', paddingBottom: '1rem' }}>
-            <Link to="/">Home</Link>
-            <Link to="login">Log In</Link>
-          </nav>
-          <Routes>
-            <Route element={<PrivateRoute><Home /></PrivateRoute>} path="/" />
-            <Route element={<Login />} path="login" />
-            <Route element={<PageNotFound />} path="*" />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
-  );
-};
+const App = () => (
+  <AuthProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          <Route index element={<PrivateRoute><Home /></PrivateRoute>} />
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </AuthProvider>
+);
 
 export default App;

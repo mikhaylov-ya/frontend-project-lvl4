@@ -1,11 +1,12 @@
-import { useFormik } from 'formik';
+import {
+  useFormik, Field, ErrorMessage, Form, FormikProvider,
+} from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
-import { Button, TextField, Container } from '@mui/material';
-import { useContext } from 'react';
+import { Button, Container, TextField } from '@mui/material';
 import routes from '../routes.js';
-import AuthContext from '../contexts/auth.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const schema = yup.object().shape({
   username: yup.string()
@@ -18,10 +19,17 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPage = location?.state?.from?.pathname || '/';
+
+  const fieldStyles = {
+    size: 'small',
+    margin: 'none',
+    variant: 'outlined',
+    padding: 8,
+    fontSize: '0.75rem',
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -29,53 +37,58 @@ const LoginForm = () => {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: async () => {
-      try {
-        const { data } = await axios.post(routes.loginPath(), { headers: auth.getAuthHeader() });
-        auth.logIn(data);
-        const { from } = location.state || { from: { pathname: routes.chatPagePath() } };
-        navigate(from);
-      } catch (e) {
-        if (e.response.status === 401) {
-          return;
-        }
-        throw e;
-      }
+    onSubmit: (values, { setErrors, setSubmitting }) => {
+      axios.post(routes.loginPath(), values)
+        .then(({ data }) => {
+          console.log('server response', data);
+          auth.logIn(data);
+          const fromPage = location?.state?.from?.pathname || '/';
+          navigate(fromPage);
+        })
+        .catch((e) => {
+          console.error(e);
+          if (e.name === 'AxiosError') {
+            setErrors({ username: '', password: e.response.status });
+            setSubmitting(false);
+          }
+          setErrors({ username: '', password: 'User doesn\'t exist' });
+          throw e;
+        });
     },
   });
 
-  const isValid = (field) => ((formik.touched[field] && Boolean(formik.errors[field])));
-
   return (
     <Container className="bg-light border">
-      <h1>{fromPage}</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          color="primary"
-          fullWidth
-          type="text"
-          name="username"
-          label="Username"
-          required="true"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          error={isValid('username')}
-          helperText={formik.touched.username && formik.errors.username}
-        />
-        <TextField
-          color="primary"
-          fullWidth
-          type="password"
-          name="password"
-          required="true"
-          label="Password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={isValid('password')}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-        <Button type="submit" color="primary">Submit</Button>
-      </form>
+      <h1>Log In</h1>
+      <FormikProvider value={formik}>
+        <Form>
+          <Field
+            label="Username"
+            as={TextField}
+            type="text"
+            name="username"
+            id="username"
+            {...fieldStyles}
+          />
+          <ErrorMessage name="username" />
+          <Field
+            label="Password"
+            as={TextField}
+            type="password"
+            name="password"
+            id="password"
+            {...fieldStyles}
+          />
+          <ErrorMessage name="password" />
+          <Button
+            type="submit"
+            color="primary"
+            disabled={formik.isSubmitting || !formik.dirty}
+          >
+            Submit
+          </Button>
+        </Form>
+      </FormikProvider>
     </Container>
   );
 };
