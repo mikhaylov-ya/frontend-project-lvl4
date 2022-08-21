@@ -11,12 +11,13 @@ import PageNotFound from './PageNotFound.jsx';
 import AuthProvider from './AuthProvider.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 import Navigation from './Navigation.jsx';
+import About from './About.jsx';
 
 const PrivateRoute = ({ children }) => {
-  const { currUser } = useAuth();
+  const auth = useAuth();
   const location = useLocation();
-  console.dir(currUser);
-  return currUser?.username ? children : <Navigate to="/login" state={{ from: location }} />;
+  console.dir('current user', auth.currUser);
+  return auth.currUser?.username ? children : <Navigate to="login" state={{ from: location }} />;
 };
 
 const App = () => (
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/" element={<Navigation />}>
           <Route index element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="login" element={<Login />} />
+          <Route path="about" element={<About />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

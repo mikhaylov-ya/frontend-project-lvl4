@@ -1,15 +1,22 @@
 import { Outlet, Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 
 const Navigation = () => {
+  const basicBtnStyles = {
+    variant: 'outlined',
+    color: 'primary',
+  };
   const auth = useAuth();
   return (
     <>
       <nav style={{ borderBottom: 'solid 1px', paddingBottom: '1rem' }}>
-        <Link to="/">Home</Link>
-        <Link to="login">Log In</Link>
-        <Button variant="contained" onClick={auth.logOut}>Log Out</Button>
+        <Container maxWidth="md" sx={{ mx: 'auto' }}>
+          <Button {...basicBtnStyles} component={Link} to="/">Home</Button>
+          <Button {...basicBtnStyles} component={Link} to="login">Log In</Button>
+          <Button {...basicBtnStyles} component={Link} to="about">About</Button>
+          <Button variant="contained" onClick={auth.logOut}>Log Out</Button>
+        </Container>
       </nav>
       <Outlet />
     </>
