@@ -48,9 +48,9 @@ const LoginForm = () => {
           console.error(e);
           if (e.name === 'AxiosError') {
             setErrors({ username: '', password: e.response.status });
-            setSubmitting(false);
           }
           setErrors({ username: '', password: 'User doesn\'t exist' });
+          setSubmitting(false);
           throw e;
         });
     },

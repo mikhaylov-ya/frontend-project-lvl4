@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "start-server -a localhost -p 5001 -s ./frontend/build",
-    "build": "cd frontend/ && npm install && DISABLE_ESLINT_PLUGIN=true npm run build"
+    "build": "cd frontend/ && npm install && DISABLE_ESLINT_PLUGIN=true npm run build --prefix my-app"
   },
   "repository": {
     "type": "git",
