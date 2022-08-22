@@ -6,7 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Login from './Login.jsx';
-import Home from './Home.jsx';
+import Chat from './Chat.jsx';
 import PageNotFound from './PageNotFound.jsx';
 import AuthProvider from './AuthProvider.jsx';
 import useAuth from '../hooks/useAuth.jsx';
@@ -25,7 +25,7 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigation />}>
-          <Route index element={<PrivateRoute><Home /></PrivateRoute>} />
+          <Route index element={<PrivateRoute><Chat /></PrivateRoute>} />
           <Route path="login" element={<Login />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<PageNotFound />} />

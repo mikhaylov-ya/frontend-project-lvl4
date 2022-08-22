@@ -19,8 +19,8 @@ const AuthProvider = ({ children }) => {
   };
 
   const getAuthHeader = () => {
-    const user = JSON.parse(localStorage.userData);
-    return (user && user.token) ? { Authorization: `Bearer ${user.token}` } : {};
+    const user = JSON.parse(localStorage.getItem('userData'));
+    return (user?.token) ? { Authorization: `Bearer ${user.token}` } : {};
   };
 
   const authService = useMemo(() => ({

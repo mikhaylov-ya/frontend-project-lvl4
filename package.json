@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/mikhaylov-ya/frontend-project-lvl4#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6",
-    "redux-toolkit": "^1.1.2"
+    "@hexlet/chat-server": "^1.1.6"
   }
 }

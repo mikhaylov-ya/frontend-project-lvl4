@@ -41,9 +41,8 @@ const LoginForm = () => {
       axios.post(routes.loginPath(), values)
         .then(({ data }) => {
           auth.logIn(data);
-          const fromPage = location?.state?.from?.pathname ?? '/';
-          console.log(fromPage);
-          navigate(fromPage, { replace: true });
+          const { from } = location?.state ?? { pathname: '/' };
+          navigate(from, { replace: true });
         })
         .catch((e) => {
           console.error(e);
