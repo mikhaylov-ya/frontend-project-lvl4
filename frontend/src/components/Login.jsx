@@ -1,7 +1,7 @@
 import {
   useFormik, Field, ErrorMessage, Form, FormikProvider,
 } from 'formik';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import { Button, Container, TextField } from '@mui/material';
@@ -21,7 +21,6 @@ const schema = yup.object().shape({
 const LoginForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const fieldStyles = {
     size: 'small',
@@ -41,8 +40,7 @@ const LoginForm = () => {
       axios.post(routes.loginPath(), values)
         .then(({ data }) => {
           auth.logIn(data);
-          const { from } = location?.state ?? { pathname: '/' };
-          navigate(from, { replace: true });
+          navigate('/', { replace: true });
         })
         .catch((e) => {
           console.error(e);
