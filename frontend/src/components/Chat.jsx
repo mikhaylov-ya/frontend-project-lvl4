@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
-  Divider, TextField, Typography, List, ListItem, Paper, ListItemText, Grid, Box,
+  Divider, TextField, Typography, List, ListItem, Paper, ListItemText, Grid,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { actions as channelsActions } from '../slices/channelsSlice.js';
+import { actions as messagesActions } from '../slices/messagesSlice.js';
 import useAuth from '../hooks/useAuth';
 
 const Home = () => {
-  const [data, setData] = useState(null);
   const auth = useAuth();
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
-    const res = await axios.get('/api/v1/data', { headers: auth.getAuthHeader() });
-    console.log('chat data from server: ', res.data);
-    setData(res.data);
+    const { data } = await axios.get('/api/v1/data', { headers: auth.getAuthHeader() });
+    dispatch(channelsActions.add(...data.channels));
+    dispatch(messagesActions.add(...data.messages));
   };
 
   useEffect(() => {
@@ -23,10 +26,13 @@ const Home = () => {
     }
   }, [auth]);
 
-  console.dir('data in state: ', data);
+  const channels = useSelector((state) => state.channels.entities);
+  const messages = useSelector((state) => state.messages.entities);
 
+  console.log('store channels', channels);
+  console.log('store msgs', messages);
   return (
-    <Box style={{ width: '70vh', margin: 'auto' }}>
+    <>
       <h1>Welcome, my dudes!</h1>
       <Grid
         container
@@ -35,7 +41,7 @@ const Home = () => {
       >
         <Grid item xs="4">
           <List>
-            {data?.channels.map((ch) => (
+            {channels.map((ch) => (
               <>
                 <ListItem button>
                   <ListItemText primary={ch.name} />
@@ -46,14 +52,14 @@ const Home = () => {
           </List>
         </Grid>
         <Grid item xs="8">
-          <Paper variant="outlined" elevation="4" square style={{ width: '80vh', height: '50vh' }}>Wow message</Paper>
+          <Paper variant="outlined" elevation="4" square style={{ width: '80vh', height: '50vh' }}>{messages.length === 0 ? 'Messages' : 'Error...'}</Paper>
         </Grid>
         <Grid item xs="10">
           <Typography variant="body1">Type smth</Typography>
           <TextField id="messageInput" variant="standard" fullWidth />
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 

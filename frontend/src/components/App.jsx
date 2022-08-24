@@ -3,8 +3,9 @@ import {
   Route,
   BrowserRouter,
   Navigate,
-  useLocation,
+  Outlet,
 } from 'react-router-dom';
+import { Box } from '@mui/material';
 import Login from './Login.jsx';
 import Chat from './Chat.jsx';
 import PageNotFound from './PageNotFound.jsx';
@@ -13,24 +14,26 @@ import useAuth from '../hooks/useAuth.jsx';
 import Navigation from './Navigation.jsx';
 import About from './About.jsx';
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
   const auth = useAuth();
-  const location = useLocation();
   console.dir('current user', auth.currUser);
-  return auth.currUser?.username ? children : <Navigate to="login" state={{ from: location }} />;
+  return !auth.currUser ? <Navigate to="login" replace /> : <Outlet />;
 };
 
 const App = () => (
   <AuthProvider>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigation />}>
-          <Route index element={<PrivateRoute><Chat /></PrivateRoute>} />
+      <Box style={{ width: '75vh', margin: 'auto' }}>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="" element={<Chat />} />
+          </Route>
           <Route path="login" element={<Login />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </Box>
     </BrowserRouter>
   </AuthProvider>
 );

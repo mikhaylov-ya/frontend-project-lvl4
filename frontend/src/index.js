@@ -4,9 +4,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import { Provider } from 'react-redux';
 import App from './components/App.jsx';
-
-// const ass = localStorage.getItem('userData');
+import store from './slices/index.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<Provider store={store}><App /></Provider>);
