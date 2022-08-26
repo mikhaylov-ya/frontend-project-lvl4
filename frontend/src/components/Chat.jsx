@@ -1,36 +1,58 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  Divider, TextField, Typography, List, ListItem, Paper, ListItemText, Grid,
+  Divider, TextField, List, ListItem, Paper, ListItemText, Grid, Button,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
+import { io } from 'socket.io-client';
+import { actions as channelsActions, selectors as chnlSelectors } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
+
 import useAuth from '../hooks/useAuth';
 
-const Home = () => {
+const Message = ({ username, body }) => (
+  <div className="text-break mb-2">
+    <b>{username}</b>
+    {': '}
+    {body}
+  </div>
+);
+
+const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
+  const [input, handleInput] = useState('');
+  const socket = io();
 
-  const fetchData = async () => {
-    const { data } = await axios.get('/api/v1/data', { headers: auth.getAuthHeader() });
-    dispatch(channelsActions.add(...data.channels));
-    dispatch(messagesActions.add(...data.messages));
+  const chnls = useSelector(chnlSelectors.selectEntities);
+  const msgs = useSelector((state) => state.messages);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input) {
+      socket.emit('newMessage', input);
+      handleInput('');
+    }
   };
 
   useEffect(() => {
-    try {
-      fetchData();
-    } catch (e) {
-      console.error(e);
-    }
-  }, [auth]);
+    axios.get(
+      '/api/v1/data',
+      { headers: auth.getAuthHeader() },
+    )
+      .then((res) => {
+        const { channels, messages } = res.data;
+        dispatch(channelsActions.addChannels(channels));
+        dispatch(messagesActions.addMessages(messages));
+      })
+      .catch(console.error);
 
-  const channels = useSelector((state) => state.channels.entities);
-  const messages = useSelector((state) => state.messages.entities);
+    socket.on('newMessage', (msg) => {
+      dispatch(messagesActions.addMessage(msg));
+    });
+  }, [dispatch, auth]);
 
-  console.log('store channels', channels);
-  console.log('store msgs', messages);
+  console.log('STORED chans', chnls, 'STORED messages', msgs);
   return (
     <>
       <h1>Welcome, my dudes!</h1>
@@ -41,7 +63,7 @@ const Home = () => {
       >
         <Grid item xs="4">
           <List>
-            {channels.map((ch) => (
+            {Object.values(chnls).map((ch) => (
               <>
                 <ListItem button>
                   <ListItemText primary={ch.name} />
@@ -52,15 +74,38 @@ const Home = () => {
           </List>
         </Grid>
         <Grid item xs="8">
-          <Paper variant="outlined" elevation="4" square style={{ width: '80vh', height: '50vh' }}>{messages.length === 0 ? 'Messages' : 'Error...'}</Paper>
+          <Paper
+            variant="outlined"
+            elevation="4"
+            square
+            style={{ width: '80vh', height: '50vh' }}
+          >
+            {Object.values(msgs)}
+          </Paper>
         </Grid>
         <Grid item xs="10">
-          <Typography variant="body1">Type smth</Typography>
-          <TextField id="messageInput" variant="standard" fullWidth />
+          <form onSubmit={handleSubmit}>
+            <TextField
+              id="messageInput"
+              label="Enter your message"
+              placeholder="A message to share"
+              variant="standard"
+              margin="normal"
+              onChange={(e) => handleInput(e.target.value)}
+              fullWidth
+              value={input}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+            >
+              Send
+            </Button>
+          </form>
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default Home;
+export default Chat;
