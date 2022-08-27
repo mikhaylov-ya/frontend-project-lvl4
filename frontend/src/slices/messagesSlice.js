@@ -1,15 +1,20 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const channelsSlice = createSlice({
-  name: 'channels',
+const messagesSlice = createSlice({
+  name: 'messages',
   initialState: { messages: [] },
   reducers: {
-    addMessages: (state, { payload }) => { state.messages.concat(payload); },
-    addMessage: (state, { payload }) => { state.messages.concat(payload); },
-    removeMessage: (state, { payload }) => { state.messages.filter(({ id }) => id !== payload); },
+    addMessage: (state, { payload }) => {
+      const { message } = payload;
+      state.messages.push(message);
+    },
+    addMessages: (state, { payload }) => {
+      state.messages = payload;
+    },
   },
 });
 
-export default channelsSlice.reducer;
+export default messagesSlice.reducer;
 
-export const { actions } = channelsSlice;
+export const { actions } = messagesSlice;

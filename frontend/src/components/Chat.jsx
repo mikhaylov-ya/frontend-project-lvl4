@@ -4,25 +4,16 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { io } from 'socket.io-client';
 import { actions as channelsActions, selectors as chnlSelectors } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
-
 import useAuth from '../hooks/useAuth';
-
-const Message = ({ username, body }) => (
-  <div className="text-break mb-2">
-    <b>{username}</b>
-    {': '}
-    {body}
-  </div>
-);
+import useSocket from '../hooks/useSocket.jsx';
 
 const Chat = () => {
   const auth = useAuth();
+  const socket = useSocket();
   const dispatch = useDispatch();
   const [input, handleInput] = useState('');
-  const socket = io();
 
   const chnls = useSelector(chnlSelectors.selectEntities);
   const msgs = useSelector((state) => state.messages);
@@ -30,7 +21,8 @@ const Chat = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input) {
-      socket.emit('newMessage', input);
+      console.log('input: ', input);
+      socket.newMessage(input);
       handleInput('');
     }
   };
@@ -46,10 +38,6 @@ const Chat = () => {
         dispatch(messagesActions.addMessages(messages));
       })
       .catch(console.error);
-
-    socket.on('newMessage', (msg) => {
-      dispatch(messagesActions.addMessage(msg));
-    });
   }, [dispatch, auth]);
 
   console.log('STORED chans', chnls, 'STORED messages', msgs);
@@ -62,11 +50,11 @@ const Chat = () => {
         alignItems="center"
       >
         <Grid item xs="4">
-          <List>
+          <List subheader="Каналы">
             {Object.values(chnls).map((ch) => (
               <>
                 <ListItem button>
-                  <ListItemText primary={ch.name} />
+                  <ListItemText primary={`# ${ch.name}`} />
                 </ListItem>
                 <Divider />
               </>
@@ -80,7 +68,7 @@ const Chat = () => {
             square
             style={{ width: '80vh', height: '50vh' }}
           >
-            {Object.values(msgs)}
+            {Object.values(msgs).map(msg => msg.id)}
           </Paper>
         </Grid>
         <Grid item xs="10">
