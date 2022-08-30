@@ -12,7 +12,7 @@ deploy:
 
 build-frontend:
 	cd frontend
-	npm run build
+	NODE_ENV=development npm run build
 
 lint:
 	npx eslint frontend/src

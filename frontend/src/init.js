@@ -9,7 +9,7 @@ import { actions as channelsActions } from './slices/channelsSlice';
 const init = (socket) => {
   socket.on('newMessage', (payload) => {
     console.log('input passed to socket: ', payload);
-    store.dispatch(messagesActions.addMessage({ message: payload }));
+    store.dispatch(messagesActions.addMessage(payload));
   });
 
   socket.on('newChannel', (chnl) => {

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import {
   useFormik, FormikProvider, Form, Field,
 } from 'formik';
@@ -8,10 +9,11 @@ import { TextField, Button } from '@mui/material';
 import useSocket from '../hooks/useSocket.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 
-const MessageForm = ({ channelId }) => {
+const MessageForm = () => {
   const { currUser } = useAuth();
   const inputRef = useRef();
   const socket = useSocket();
+  const { activeChannel } = useSelector((state) => state.channels);
 
   const validationSchema = yup.object().shape({
     message: yup
@@ -25,14 +27,15 @@ const MessageForm = ({ channelId }) => {
       message: '',
     },
     validationSchema,
-    onSubmit: (text) => {
+    onSubmit: ({ message }) => {
       const { username } = currUser;
-      const message = {
-        from: channelId,
-        text,
+      const msgObject = {
+        from: activeChannel,
+        text: message,
         username,
       };
-      socket.newMessage(message);
+
+      socket.newMessage(msgObject);
       formik.resetForm();
       inputRef.current.focus();
     },
@@ -59,7 +62,7 @@ const MessageForm = ({ channelId }) => {
         <Button
           type="submit"
           variant="contained"
-          endIcon={SendIcon}
+          endIcon={<SendIcon />}
         >
           Send
         </Button>
@@ -68,4 +71,18 @@ const MessageForm = ({ channelId }) => {
   );
 };
 
-export default MessageForm;
+const Messages = () => {
+  const { activeChannel } = useSelector((state) => state.channels);
+  const messages = useSelector((state) => state.messages);
+  console.log('messages in store', messages);
+  const currMessages = messages.filter(({ from }) => from === activeChannel);
+
+  return currMessages.map(({ id, username, text }) => (
+    <p key={id}>
+      <b>{`${username}: `}</b>
+      {text}
+    </p>
+  ));
+};
+
+export { MessageForm, Messages };
