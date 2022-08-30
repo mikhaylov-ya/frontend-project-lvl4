@@ -2,3 +2,5 @@
 /build/
 /.vscode/
 .DS_Store
+.env
+.env.development.local

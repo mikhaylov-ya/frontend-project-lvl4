@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@fontsource/roboto": "^4.5.7",
+    "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.9.3",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
@@ -27,12 +28,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [

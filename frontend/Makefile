@@ -8,4 +8,4 @@ build:
 	npm build
 
 lint:
-	npx eslint .
+	npx eslint ./src

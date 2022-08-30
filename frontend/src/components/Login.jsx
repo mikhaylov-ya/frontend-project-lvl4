@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import {
-  Button, Container, TextField, FormHelperText,
+  Button, Container, TextField,
 } from '@mui/material';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
 
-const schema = yup.object().shape({
+const validationSchema = yup.object().shape({
   username: yup.string()
     .required('Make sure to provide a username, please')
     .min(5, 'Too Short!'),
@@ -37,7 +37,7 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-    validationSchema: schema,
+    validationSchema,
     onSubmit: (values, { setErrors, setSubmitting }) => {
       axios.post(routes.loginPath(), values)
         .then(({ data }) => {
