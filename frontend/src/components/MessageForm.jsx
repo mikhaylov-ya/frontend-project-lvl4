@@ -71,7 +71,7 @@ const MessageForm = () => {
   );
 };
 
-const Messages = () => {
+const MessageList = () => {
   const { activeChannel } = useSelector((state) => state.channels);
   const messages = useSelector((state) => state.messages);
   console.log('messages in store', messages);
@@ -85,4 +85,4 @@ const Messages = () => {
   ));
 };
 
-export { MessageForm, Messages };
+export { MessageForm, MessageList };
