@@ -25,7 +25,7 @@ const Chat = () => {
         dispatch(messagesActions.addMessages(messages));
       })
       .catch(console.error);
-  }, [auth]);
+  }, [auth, dispatch]);
 
   const msgs = useSelector((state) => state.messages);
   const { activeChannel, entities: channels } = useSelector((state) => state.channels);
@@ -42,10 +42,11 @@ const Chat = () => {
         alignItems="center"
       >
         <Grid item xs="4">
-          <List subheader="Channels" end>
-            {Object.values(channels).map(({ id, name }) => (
+          <List subheader="Channels">
+            {channels && Object.values(channels).map(({ id, name }) => (
               <>
                 <ListItemButton
+                  key={id}
                   onClick={dispatch(channelsActions.toggleChannel(id))}
                   selected={id === activeChannel}
                 >
@@ -63,7 +64,7 @@ const Chat = () => {
             square
             style={{ width: '80vh', height: '50vh' }}
           >
-            {currMessages.map((msg) => (
+            {currMessages && currMessages.map((msg) => (
               <p key={msg.id}>
                 <b>{msg[0].username}</b>
                 {msg[0].text}
