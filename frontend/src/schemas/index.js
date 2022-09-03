@@ -3,10 +3,11 @@ import * as yup from 'yup';
 const loginSchema = yup.object().shape({
   username: yup.string()
     .required('Make sure to provide a username, please')
-    .min(5, 'Too Short!'),
+    .min(3, 'Too Short!'),
   password: yup.string()
     .required('No password provided')
-    .min(5, 'Password is too short - should be 5 chars minimum')
+    .min(6, 'Password is too short - should be 6 chars minimum')
+    .max(20, 'Password is too long!')
     .matches(/[a-zA-Z]/, 'Password can only contain Latin letters'),
 });
 
@@ -27,4 +28,20 @@ const getRenameSchema = (channels) => yup.object().shape({
     .notOneOf(channels, 'This name is already taken'),
 });
 
-export { loginSchema, messageSchema, getRenameSchema };
+const signUpSchema = yup.object().shape({
+  username: yup.string()
+    .required('Make sure to provide a username, please')
+    .min(3, 'Too Short!'),
+  password: yup.string()
+    .required('No password provided')
+    .min(6, 'Password is too short - should be 6 chars minimum')
+    .max(20, 'Password is too long!')
+    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters'),
+  passwordConfirmation: yup.string()
+    .required('Confirm password!')
+    .min(6, 'Password is too short - should be 6 chars minimum'),
+});
+
+export {
+  loginSchema, messageSchema, getRenameSchema, signUpSchema,
+};

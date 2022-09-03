@@ -2,13 +2,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket';
+import { actions as channelsActions } from '../../slices/channelsSlice.js';
 
 const Remove = ({ hideModal, open, id }) => {
-  console.log('ch in modal', { id });
+  const dispatch = useDispatch();
   const socket = useSocket();
   const removeChannel = () => {
-    socket.removeChannel(id);
+    socket.removeChannel({ id });
+    dispatch(channelsActions.toggleChannel(1)); // navigate to general channel
     hideModal();
   };
 

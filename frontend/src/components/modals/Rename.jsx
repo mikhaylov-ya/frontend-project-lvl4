@@ -16,13 +16,14 @@ const Rename = ({ hideModal, open, id }) => {
   const socket = useSocket();
   const inputRef = useRef();
   const { entities: channels } = useSelector((state) => state.channels);
+  const channelNames = channels.map(({ name }) => name);
   const currChannel = channels.find((ch) => ch.id === id);
 
   const f = useFormik({
     initialValues: {
       name: currChannel.name,
     },
-    validationSchema: getRenameSchema(channels),
+    validationSchema: getRenameSchema(channelNames),
     onSubmit: ({ name }) => {
       const info = { name, id };
 
@@ -35,6 +36,8 @@ const Rename = ({ hideModal, open, id }) => {
       }
     },
     validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
   });
 
   return (
@@ -64,7 +67,8 @@ const Rename = ({ hideModal, open, id }) => {
               type="text"
               name="name"
               id="name"
-              autoFocus
+              helperText={f.errors.name}
+              error={Boolean(f.errors.name)}
             />
           </Form>
         </FormikProvider>

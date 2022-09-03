@@ -14,12 +14,13 @@ const Add = ({ hideModal, open }) => {
   const socket = useSocket();
   const inputRef = useRef();
   const { entities: channels } = useSelector((state) => state.channels);
+  const channelNames = channels.map(({ name }) => name);
 
   const f = useFormik({
     initialValues: {
       name: '',
     },
-    validationSchema: getRenameSchema(channels),
+    validationSchema: getRenameSchema(channelNames),
     onSubmit: (name) => {
       try {
         socket.newChannel(name);
@@ -30,6 +31,8 @@ const Add = ({ hideModal, open }) => {
       }
     },
     validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
   });
 
   return (
@@ -59,7 +62,8 @@ const Add = ({ hideModal, open }) => {
               type="text"
               name="name"
               id="name"
-              autoFocus
+              helperText={f.errors.name}
+              error={Boolean(f.errors.name)}
             />
           </Form>
         </FormikProvider>
