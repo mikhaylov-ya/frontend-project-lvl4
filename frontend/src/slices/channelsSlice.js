@@ -7,7 +7,12 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel: (state, { payload }) => { state.entities.push(payload); },
     addChannels: (state, { payload }) => { state.entities = payload; },
-    removeChannel: (state, { payload }) => { state.entities.filter((ch) => ch.id !== payload); },
+    removeChannel: (state, { payload }) => {
+      state.entities.filter((ch) => {
+        console.log('removing...', { payload, id: ch.id });
+        return ch.id !== payload;
+      });
+    },
     toggleChannel: (state, { payload }) => { state.activeChannel = payload; },
   },
 });

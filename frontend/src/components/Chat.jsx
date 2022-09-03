@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Paper, Grid } from '@mui/material';
+import { Paper, Grid, LinearProgress } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { MessageForm, MessageList } from './MessageForm.jsx';
@@ -29,33 +29,31 @@ const Chat = () => {
   }, [auth, dispatch]);
 
   return !isLoaded
-    ? <h1>No data, no view</h1>
+    ? <LinearProgress sx={{ mt: 10 }} />
     : (
-      <>
-        <h1>Welcome, my dudes!</h1>
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs="4">
-            <ChannelList />
-          </Grid>
-          <Grid item xs="8">
-            <Paper
-              variant="outlined"
-              elevation="4"
-              square
-              style={{ width: '80vh', height: '50vh' }}
-            >
-              <MessageList />
-            </Paper>
-          </Grid>
-          <Grid item xs="10">
-            <MessageForm />
-          </Grid>
+      <Grid
+        sx={{ mt: 7 }}
+        spacing={3}
+        container
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs="3">
+          <ChannelList />
         </Grid>
-      </>
+        <Grid item xs="7">
+          <Paper
+            square
+            elevation={5}
+            style={{ height: '50vh' }}
+          >
+            <MessageList />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <MessageForm />
+        </Grid>
+      </Grid>
     );
 };
 

@@ -8,12 +8,19 @@ import { actions as channelsActions } from './slices/channelsSlice';
 
 const init = (socket) => {
   socket.on('newMessage', (payload) => {
-    console.log('input passed to socket: ', payload);
     store.dispatch(messagesActions.addMessage(payload));
   });
 
-  socket.on('newChannel', (chnl) => {
-    store.dispatch(channelsActions.addChannel(chnl));
+  socket.on('newChannel', (payload) => {
+    store.dispatch(channelsActions.addChannel(payload));
+  });
+
+  socket.on('renameChannel', (payload) => {
+    store.dispatch(channelsActions.renameChannel(payload));
+  });
+
+  socket.on('removeChannel', (payload) => {
+    store.dispatch(channelsActions.removeChannel(payload));
   });
 
   return (

@@ -4,10 +4,10 @@ import {
   useFormik, FormikProvider, Form, Field,
 } from 'formik';
 import SendIcon from '@mui/icons-material/Send';
-import * as yup from 'yup';
 import { TextField, Button } from '@mui/material';
 import useSocket from '../hooks/useSocket.jsx';
 import useAuth from '../hooks/useAuth.jsx';
+import { messageSchema } from '../schemas/index.js';
 
 const MessageForm = () => {
   const { currUser } = useAuth();
@@ -15,18 +15,11 @@ const MessageForm = () => {
   const socket = useSocket();
   const { activeChannel } = useSelector((state) => state.channels);
 
-  const validationSchema = yup.object().shape({
-    message: yup
-      .string()
-      .trim()
-      .required('Required'),
-  });
-
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    validationSchema,
+    messageSchema,
     onSubmit: ({ message }) => {
       const { username } = currUser;
       const msgObject = {

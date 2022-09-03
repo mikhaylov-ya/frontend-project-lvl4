@@ -10,8 +10,8 @@ const SocketProvider = ({ children }) => {
   const events = {
     newMessage: (...args) => socket.volatile.emit('newMessage', ...args),
     newChannel: (...args) => socket.volatile.emit('newChannel', ...args),
-    removeChannel: (...args) => socket.volatile.emit('removeChannel', args),
-    renameChannel: (...args) => socket.volatile.emit('renameChannel', args),
+    removeChannel: (...args) => socket.volatile.emit('removeChannel', ...args),
+    renameChannel: (...args) => socket.volatile.emit('renameChannel', ...args),
   };
 
   return (
