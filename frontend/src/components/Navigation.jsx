@@ -14,7 +14,7 @@ const Navigation = () => {
   return (
     <Container maxWidth="sm">
       <nav sx={{ borderBottom: 2, pb: 2 }}>
-        <Button sx={basicBtnStyles} component={Link} to="/">Home</Button>
+        <Button sx={basicBtnStyles} component={Link} to="/">Hexlet Chat</Button>
         <Button sx={basicBtnStyles} component={Link} to="about">About</Button>
         <Button sx={basicBtnStyles} component={Link} to="signup">Sign Up</Button>
         {currUser ? LogoutBtn : LoginBtn}

@@ -1,5 +1,5 @@
 import {
-  useFormik, Field, ErrorMessage, Form, FormikProvider,
+  useFormik, Field, Form, FormikProvider,
 } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,71 +8,80 @@ import {
 } from '@mui/material';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
-import { loginSchema } from '../schemas/index.js';
+import { signUpSchema } from '../schemas/index.js';
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const fieldStyles = {
-    size: 'small',
-    margin: 'none',
-    variant: 'outlined',
-    padding: 8,
-    fontSize: '0.75rem',
-  };
-
-  const formik = useFormik({
+  const f = useFormik({
     initialValues: {
       username: '',
       password: '',
+      confirmation: '',
     },
-    loginSchema,
-    onSubmit: (values, { setErrors, setSubmitting }) => {
-      axios.post(routes.loginPath(), values)
+    validationSchema: signUpSchema,
+    onSubmit: ({ username, password }, { setErrors, setSubmitting }) => {
+      axios.post(routes.signupPath(), { username, password })
         .then(({ data }) => {
           auth.logIn(data);
           navigate('/', { replace: true });
         })
         .catch((e) => {
-          console.error(e);
-          if (e.name === 'AxiosError') {
-            setErrors({ username: '', password: e.response.status });
+          console.dir(e.response.status);
+          if (e.response.status === 409) {
+            setErrors({ username: 'This user is already exists' });
+          } else if (e.name === 'AxiosError') {
+            setErrors({ username: e.response.status });
           }
-          setErrors({ username: '', password: 'User doesn\'t exist' });
           setSubmitting(false);
           throw e;
         });
     },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
   });
 
   return (
-    <Container className="bg-light border">
-      <h1>Log In</h1>
-      <FormikProvider value={formik}>
+    <Container>
+      <h1>Sign Up</h1>
+      <FormikProvider value={f}>
         <Form>
           <Field
+            sx={{ mx: 2 }}
             label="Username"
             as={TextField}
             type="text"
             name="username"
             id="username"
-            {...fieldStyles}
+            helperText={f.errors.username}
+            error={Boolean(f.errors.username)}
           />
-          <ErrorMessage name="username" />
           <Field
+            sx={{ mx: 2 }}
             label="Password"
             as={TextField}
             type="password"
             name="password"
             id="password"
-            {...fieldStyles}
+            helperText={f.errors.password}
+            error={Boolean(f.errors.password)}
           />
-          <ErrorMessage name="password" />
+          <Field
+            sx={{ mx: 2 }}
+            label="Confirm password"
+            as={TextField}
+            type="password"
+            name="confirmation"
+            id="confirmation"
+            helperText={f.errors.confirmation}
+            error={Boolean(f.errors.confirmation)}
+          />
           <Button
             type="submit"
             color="primary"
-            disabled={formik.isSubmitting || !formik.dirty}
+            disabled={f.isSubmitting || !f.dirty}
           >
             Submit
           </Button>
@@ -82,4 +91,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

@@ -11,8 +11,6 @@ import useSocket from '../../hooks/useSocket';
 import { getRenameSchema } from '../../schemas';
 
 const Rename = ({ hideModal, open, id }) => {
-  console.log({ open });
-  console.log('ch in modal', { id });
   const socket = useSocket();
   const inputRef = useRef();
   const { entities: channels } = useSelector((state) => state.channels);

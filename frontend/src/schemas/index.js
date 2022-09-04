@@ -37,9 +37,10 @@ const signUpSchema = yup.object().shape({
     .min(6, 'Password is too short - should be 6 chars minimum')
     .max(20, 'Password is too long!')
     .matches(/[a-zA-Z]/, 'Password can only contain Latin letters'),
-  passwordConfirmation: yup.string()
+  confirmation: yup.string()
     .required('Confirm password!')
-    .min(6, 'Password is too short - should be 6 chars minimum'),
+    .min(6, 'Password is too short - should be 6 chars minimum')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 export {

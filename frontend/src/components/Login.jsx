@@ -1,7 +1,7 @@
 import {
   useFormik, Field, ErrorMessage, Form, FormikProvider,
 } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Button, Container, TextField,
@@ -15,11 +15,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const fieldStyles = {
-    size: 'small',
-    margin: 'none',
-    variant: 'outlined',
-    padding: 8,
-    fontSize: '0.75rem',
+    mx: 2,
   };
 
   const formik = useFormik({
@@ -57,7 +53,7 @@ const LoginForm = () => {
             type="text"
             name="username"
             id="username"
-            {...fieldStyles}
+            sx={fieldStyles}
           />
           <ErrorMessage name="username" />
           <Field
@@ -66,7 +62,7 @@ const LoginForm = () => {
             type="password"
             name="password"
             id="password"
-            {...fieldStyles}
+            sx={fieldStyles}
           />
           <ErrorMessage name="password" />
           <Button
@@ -78,6 +74,7 @@ const LoginForm = () => {
           </Button>
         </Form>
       </FormikProvider>
+      <Button component={Link} to="/signup">Sign Up</Button>
     </Container>
   );
 };
