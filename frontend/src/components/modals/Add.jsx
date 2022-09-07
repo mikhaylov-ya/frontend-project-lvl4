@@ -1,18 +1,19 @@
-import { useRef } from 'react';
 import {
   useFormik, Field, Form, FormikProvider,
 } from 'formik';
+import { toast } from 'react-toastify';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, IconButton,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import useSocket from '../../hooks/useSocket';
 import { getRenameSchema } from '../../schemas';
 
 const Add = ({ hideModal, open }) => {
+  const { t } = useTranslation();
   const socket = useSocket();
-  const inputRef = useRef();
   const { entities: channels } = useSelector((state) => state.channels);
   const channelNames = channels.map(({ name }) => name);
 
@@ -25,9 +26,9 @@ const Add = ({ hideModal, open }) => {
       try {
         socket.newChannel(name);
         hideModal();
+        toast.success(t('toasts.add'));
       } catch (e) {
-        inputRef.current.select();
-        throw e;
+        toast.error((t('errors.network')));
       }
     },
     validateOnChange: false,
@@ -41,7 +42,7 @@ const Add = ({ hideModal, open }) => {
       onClose={hideModal}
     >
       <DialogTitle>
-        Add new channel
+        {t('modals.add')}
         <IconButton
           onClick={hideModal}
           sx={{
@@ -57,26 +58,27 @@ const Add = ({ hideModal, open }) => {
         <FormikProvider value={f}>
           <Form>
             <Field
-              label="Channel name"
+              label={t('labels.channels.name')}
               as={TextField}
               type="text"
               name="name"
               id="name"
-              helperText={f.errors.name}
+              helperText={t(f.errors.name)}
               error={Boolean(f.errors.name)}
+              autoFocus
             />
           </Form>
         </FormikProvider>
         <DialogActions>
           <Button onClick={hideModal}>
-            Cancel
+            {t('buttons.cancel')}
           </Button>
           <Button
             type="submit"
             color="primary"
             disabled={f.isSubmitting}
           >
-            Submit
+            {t('buttons.submit')}
           </Button>
         </DialogActions>
       </DialogContent>

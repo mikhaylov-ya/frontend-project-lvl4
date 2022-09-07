@@ -6,6 +6,7 @@ import {
   Outlet,
 } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
 import Login from './Login.jsx';
 import Chat from './Chat.jsx';
 import PageNotFound from './PageNotFound.jsx';
@@ -34,6 +35,7 @@ const App = () => (
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Box>
+    <ToastContainer />
   </BrowserRouter>
 );
 

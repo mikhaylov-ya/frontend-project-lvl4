@@ -1,25 +1,28 @@
 import { Link } from 'react-router-dom';
-import { Button, Container } from '@mui/material';
+import {
+  Button, AppBar, Toolbar,
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
 
 const Navigation = () => {
+  const { t } = useTranslation();
   const basicBtnStyles = {
     mx: 2,
-    color: 'primary',
   };
   const { logOut, currUser } = useAuth();
-  const LoginBtn = <Button variant="contained" sx={basicBtnStyles} component={Link} to="login">Log In</Button>;
-  const LogoutBtn = <Button variant="contained" sx={basicBtnStyles} onClick={() => logOut()}>Log Out</Button>;
+  const LoginBtn = <Button variant="contained" sx={basicBtnStyles} component={Link} to="login">{t('nav.login')}</Button>;
+  const LogoutBtn = <Button variant="contained" sx={basicBtnStyles} onClick={() => logOut()}>{t('nav.logout')}</Button>;
 
   return (
-    <Container maxWidth="sm">
-      <nav sx={{ borderBottom: 2, pb: 2 }}>
-        <Button sx={basicBtnStyles} component={Link} to="/">Hexlet Chat</Button>
-        <Button sx={basicBtnStyles} component={Link} to="about">About</Button>
-        <Button sx={basicBtnStyles} component={Link} to="signup">Sign Up</Button>
+    <AppBar color="primary" position="static">
+      <Toolbar>
+        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="/">{t('nav.home')}</Button>
+        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="about">{t('nav.about')}</Button>
+        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="signup">{t('nav.signup')}</Button>
         {currUser ? LogoutBtn : LoginBtn}
-      </nav>
-    </Container>
+      </Toolbar>
+    </AppBar>
   );
 };
 

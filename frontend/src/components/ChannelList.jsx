@@ -2,6 +2,7 @@ import {
   Divider, List, ListItemButton, ListItemText, IconButton, ListItem, ListItemSecondaryAction,
   ListSubheader,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import ControlPointSharpIcon from '@mui/icons-material/ControlPointSharp';
@@ -9,11 +10,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import getModal from './modals/index.jsx';
-
-// const addChannel = () => {
-//   const socket = useSocket();
-//   socket.newChannel()
-// }
 
 const renderModal = (type, modalInfo) => {
   if (!type) return null;
@@ -26,6 +22,7 @@ const ChannelList = () => {
 
   const showModal = (type, id) => setModalInfo({ type, open: true, id });
   const hideModal = () => setModalInfo({ type: null, open: false, id: null });
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const selectChannel = (id) => {
@@ -37,7 +34,7 @@ const ChannelList = () => {
   return (
     <List>
       <ListSubheader>
-        Channels
+        {t('channelList')}
         <IconButton onClick={() => showModal('adding', null)}>
           <AddIcon color="primary" />
         </IconButton>
@@ -59,7 +56,6 @@ const ChannelList = () => {
                 <IconButton onClick={() => showModal('removing', ch.id)}>
                   <DeleteForeverIcon />
                 </IconButton>
-
               </ListItemSecondaryAction>
             ) : null}
           </ListItem>

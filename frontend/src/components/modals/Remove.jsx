@@ -1,4 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton,
 } from '@mui/material';
@@ -7,12 +9,17 @@ import useSocket from '../../hooks/useSocket';
 import { actions as channelsActions } from '../../slices/channelsSlice.js';
 
 const Remove = ({ hideModal, open, id }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const socket = useSocket();
+
+  const notify = () => toast.success(t('toasts.remove'));
+
   const removeChannel = () => {
     socket.removeChannel({ id });
     dispatch(channelsActions.toggleChannel(1)); // navigate to general channel
     hideModal();
+    notify();
   };
 
   return (
@@ -21,7 +28,7 @@ const Remove = ({ hideModal, open, id }) => {
       onClose={hideModal}
     >
       <DialogTitle>
-        Remove
+        {t('modals.remove')}
         <IconButton
           onClick={hideModal}
           sx={{
@@ -41,14 +48,14 @@ const Remove = ({ hideModal, open, id }) => {
             color="warning"
             variant="contained"
           >
-            Delete
+            {t('buttons.delete')}
           </Button>
           <Button
             onClick={hideModal}
             type="submit"
             color="primary"
           >
-            Cancel
+            {t('buttons.cancel')}
           </Button>
         </DialogActions>
       </DialogContent>

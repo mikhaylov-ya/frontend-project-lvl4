@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Paper, Grid, LinearProgress } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import { toast } from 'react-toastify';
+import axios, { AxiosError } from 'axios';
 import { MessageForm, MessageList } from './MessageForm.jsx';
 import ChannelList from './ChannelList.jsx';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
@@ -11,6 +13,7 @@ import useAuth from '../hooks/useAuth';
 const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [isLoaded, setLoad] = useState(false);
 
   useEffect(() => {
@@ -25,7 +28,9 @@ const Chat = () => {
         dispatch(messagesActions.addMessages(messages));
         setLoad(true);
       })
-      .catch(console.error);
+      .catch((er) => {
+        if (er === AxiosError) toast.error(t('errors.network'));
+      });
   }, [auth, dispatch]);
 
   return !isLoaded

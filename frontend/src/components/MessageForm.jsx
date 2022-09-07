@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import * as filter from 'leo-profanity';
 import {
   useFormik, FormikProvider, Form, Field,
 } from 'formik';
@@ -10,6 +12,7 @@ import useAuth from '../hooks/useAuth.jsx';
 import { messageSchema } from '../schemas/index.js';
 
 const MessageForm = () => {
+  const { t } = useTranslation();
   const { currUser } = useAuth();
   const inputRef = useRef();
   const socket = useSocket();
@@ -19,18 +22,22 @@ const MessageForm = () => {
     initialValues: {
       message: '',
     },
-    messageSchema,
+    validationSchema: messageSchema,
     onSubmit: ({ message }) => {
-      const { username } = currUser;
-      const msgObject = {
-        from: activeChannel,
-        text: message,
-        username,
-      };
+      try {
+        const { username } = currUser;
+        const msgObject = {
+          from: activeChannel,
+          text: filter.clean(message),
+          username,
+        };
 
-      socket.newMessage(msgObject);
-      formik.resetForm();
-      inputRef.current.focus();
+        socket.newMessage(msgObject);
+        formik.resetForm();
+        inputRef.current.focus();
+      } catch (e) {
+        t(e.key);
+      }
     },
   });
 
@@ -43,8 +50,7 @@ const MessageForm = () => {
       <Form>
         <Field
           as={TextField}
-          label="Enter your message"
-          placeholder="A message to share"
+          label={t('labels.messages.input')}
           variant="standard"
           margin="normal"
           name="message"
@@ -57,7 +63,7 @@ const MessageForm = () => {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Send
+          {t('buttons.submit')}
         </Button>
       </Form>
     </FormikProvider>

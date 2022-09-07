@@ -1,6 +1,8 @@
 import {
-  useFormik, Field, ErrorMessage, Form, FormikProvider,
+  useFormik, Field, Form, FormikProvider,
 } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -11,6 +13,7 @@ import useAuth from '../hooks/useAuth.jsx';
 import { loginSchema } from '../schemas/index.js';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -18,63 +21,65 @@ const LoginForm = () => {
     mx: 2,
   };
 
-  const formik = useFormik({
+  const f = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    loginSchema,
-    onSubmit: (values, { setErrors, setSubmitting }) => {
+    validationSchema: loginSchema,
+    onSubmit: (values, { setSubmitting, setFieldError }) => {
       axios.post(routes.loginPath(), values)
         .then(({ data }) => {
           auth.logIn(data);
           navigate('/', { replace: true });
         })
         .catch((e) => {
-          console.error(e);
-          if (e.name === 'AxiosError') {
-            setErrors({ username: '', password: e.response.status });
-          }
-          setErrors({ username: '', password: 'User doesn\'t exist' });
           setSubmitting(false);
-          throw e;
+          if (e.response.status === 401) {
+            setFieldError('username', 'errors.auth');
+          } else toast.error(t('errors.network'));
         });
     },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
   });
 
   return (
     <Container className="bg-light border">
-      <h1>Log In</h1>
-      <FormikProvider value={formik}>
+      <h1>{t('nav.login')}</h1>
+      <FormikProvider value={f}>
         <Form>
           <Field
-            label="Username"
+            label={t('labels.username')}
             as={TextField}
             type="text"
             name="username"
             id="username"
             sx={fieldStyles}
+            helperText={t(f.errors.username)}
+            error={Boolean(f.errors.username)}
           />
-          <ErrorMessage name="username" />
           <Field
-            label="Password"
+            label={t('labels.password')}
             as={TextField}
             type="password"
             name="password"
             id="password"
             sx={fieldStyles}
+            helperText={t(f.errors.password)}
+            error={Boolean(f.errors.password)}
           />
-          <ErrorMessage name="password" />
           <Button
             type="submit"
             color="primary"
-            disabled={formik.isSubmitting || !formik.dirty}
+            disabled={f.isSubmitting || !f.dirty}
           >
-            Submit
+            {t('buttons.login')}
           </Button>
         </Form>
       </FormikProvider>
-      <Button component={Link} to="/signup">Sign Up</Button>
+      <Button component={Link} to="/signup">{t('nav.signup')}</Button>
     </Container>
   );
 };
