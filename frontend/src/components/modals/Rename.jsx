@@ -17,8 +17,8 @@ const Rename = ({ hideModal, open, id }) => {
 
   const { entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
-  const channelNames = channels.map(({ name }) => name);
   const currChannel = channels.find((ch) => ch.id === id);
+  const channelNames = channels.map(({ name }) => name).filter((name) => name !== currChannel.name);
 
   const f = useFormik({
     initialValues: {
@@ -27,7 +27,6 @@ const Rename = ({ hideModal, open, id }) => {
     validationSchema: getRenameSchema(channelNames),
     onSubmit: ({ name }) => {
       const info = { name, id };
-
       try {
         socket.renameChannel(info);
         hideModal();
@@ -71,20 +70,19 @@ const Rename = ({ hideModal, open, id }) => {
               helperText={t(f.errors.name)}
               error={Boolean(f.errors.name)}
             />
+            <DialogActions>
+              <Button onClick={hideModal}>
+                {t('buttons.cancel')}
+              </Button>
+              <Button
+                type="submit"
+                disabled={f.isSubmitting}
+              >
+                {t('buttons.submit')}
+              </Button>
+            </DialogActions>
           </Form>
         </FormikProvider>
-        <DialogActions>
-          <Button onClick={hideModal}>
-            {t('buttons.cancel')}
-          </Button>
-          <Button
-            type="submit"
-            color="primary"
-            disabled={f.isSubmitting}
-          >
-            {t('buttons.submit')}
-          </Button>
-        </DialogActions>
       </DialogContent>
     </Dialog>
   );

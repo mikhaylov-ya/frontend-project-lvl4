@@ -9,7 +9,9 @@ import App from './components/App';
 import store from './slices/index.js';
 import resources from './locales/index.js';
 import { addMessage } from './slices/messagesSlice.js';
-import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
+import {
+  addChannel, removeChannel, renameChannel, toggleChannel,
+} from './slices/channelsSlice';
 
 const init = async (socket) => {
   const i18nInst = i18n.createInstance();
@@ -36,6 +38,7 @@ const init = async (socket) => {
 
   socket.on('newChannel', (payload) => {
     store.dispatch(addChannel(payload));
+    store.dispatch(toggleChannel(payload.id));
   });
 
   socket.on('renameChannel', (payload) => {
@@ -43,7 +46,7 @@ const init = async (socket) => {
   });
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(removeChannel(payload));
+    store.dispatch(removeChannel(payload.id));
   });
 
   return (

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter, createAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line object-curly-newline
+import { createSlice, createEntityAdapter, createAction, current } from '@reduxjs/toolkit';
 import { removeChannel } from './channelsSlice.js';
 
 const messagesAdapter = createEntityAdapter();
@@ -14,6 +15,8 @@ const messagesSlice = createSlice({
       .addCase(addMessage, messagesAdapter.addOne)
       .addCase(addMessages, messagesAdapter.setAll)
       .addCase(removeChannel, (state, { payload }) => {
+        console.log('entities', current(state.entities));
+        console.log('payload', payload);
         const filtered = Object.values(state.entities)
           .filter((msg) => msg.from !== payload.id);
         messagesAdapter.setAll(state, filtered);
