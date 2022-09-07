@@ -72,9 +72,10 @@ const MessageForm = () => {
 
 const MessageList = () => {
   const { activeChannel } = useSelector((state) => state.channels);
-  const messages = useSelector((state) => state.messages);
-  console.log('messages in store', messages);
-  const currMessages = messages.filter(({ from }) => from === activeChannel);
+  const { entities: messages } = useSelector((state) => state.messages);
+  const messageArr = Object.values(messages);
+  console.log('selected msgs', messageArr);
+  const currMessages = messageArr.filter(({ from }) => from === activeChannel);
 
   return currMessages.map(({ id, username, text }) => (
     <p key={id}>

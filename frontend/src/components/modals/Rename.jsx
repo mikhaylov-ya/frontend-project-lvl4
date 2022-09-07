@@ -15,7 +15,8 @@ const Rename = ({ hideModal, open, id }) => {
   const socket = useSocket();
   const { t } = useTranslation();
 
-  const { entities: channels } = useSelector((state) => state.channels);
+  const { entities } = useSelector((state) => state.channels);
+  const channels = Object.values(entities);
   const channelNames = channels.map(({ name }) => name);
   const currChannel = channels.find((ch) => ch.id === id);
 
@@ -69,7 +70,6 @@ const Rename = ({ hideModal, open, id }) => {
               id="name"
               helperText={t(f.errors.name)}
               error={Boolean(f.errors.name)}
-              autoFocus
             />
           </Form>
         </FormikProvider>
@@ -82,7 +82,7 @@ const Rename = ({ hideModal, open, id }) => {
             color="primary"
             disabled={f.isSubmitting}
           >
-            {t('buttons.cancel')}
+            {t('buttons.submit')}
           </Button>
         </DialogActions>
       </DialogContent>

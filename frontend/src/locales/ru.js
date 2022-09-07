@@ -18,6 +18,8 @@ export default {
       delete: 'Удалить',
       signup: 'Зарегистрироваться',
       login: 'Войти',
+      rename: 'Переименовать',
+      remove: 'Удалить',
     },
     labels: {
       channels: {

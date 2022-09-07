@@ -1,24 +1,26 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-import { actions as channelsActions } from './channelsSlice.js';
+import { createSlice, createEntityAdapter, createAction } from '@reduxjs/toolkit';
+import { removeChannel } from './channelsSlice.js';
+
+const messagesAdapter = createEntityAdapter();
+const addMessage = createAction('addMessage');
+const addMessages = createAction('addMessages');
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: [],
-  reducers: {
-    addMessage: (state, { payload }) => { state.push(payload); },
-    addMessages: (state, { payload }) => {
-      state.concat(payload);
-    },
-  },
+  initialState: messagesAdapter.getInitialState(),
   extraReducers: (builder) => {
     builder
-      .addCase(channelsActions.removeChannel, (state, { payload }) => {
-        state = state.filter((msg) => msg.from !== payload.id);
+      .addCase(addMessage, messagesAdapter.addOne)
+      .addCase(addMessages, messagesAdapter.setAll)
+      .addCase(removeChannel, (state, { payload }) => {
+        const filtered = Object.values(state.entities)
+          .filter((msg) => msg.from !== payload.id);
+        messagesAdapter.setAll(state, filtered);
       });
   },
 });
 
 export default messagesSlice.reducer;
 
-export const { actions } = messagesSlice;
+export { addMessage, addMessages };

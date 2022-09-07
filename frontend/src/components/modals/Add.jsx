@@ -14,7 +14,8 @@ import { getRenameSchema } from '../../schemas';
 const Add = ({ hideModal, open }) => {
   const { t } = useTranslation();
   const socket = useSocket();
-  const { entities: channels } = useSelector((state) => state.channels);
+  const { entities } = useSelector((state) => state.channels);
+  const channels = Object.values(entities);
   const channelNames = channels.map(({ name }) => name);
 
   const f = useFormik({

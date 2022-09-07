@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket';
-import { actions as channelsActions } from '../../slices/channelsSlice.js';
+import { toggleChannel } from '../../slices/channelsSlice.js';
 
 const Remove = ({ hideModal, open, id }) => {
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ const Remove = ({ hideModal, open, id }) => {
 
   const removeChannel = () => {
     socket.removeChannel({ id });
-    dispatch(channelsActions.toggleChannel(1)); // navigate to general channel
+    dispatch(toggleChannel(1)); // navigate to general channel
     hideModal();
     notify();
   };

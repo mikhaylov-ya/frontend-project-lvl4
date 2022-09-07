@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { MessageForm, MessageList } from './MessageForm.jsx';
 import ChannelList from './ChannelList.jsx';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
+import { toggleChannel, addChannels } from '../slices/channelsSlice.js';
+import { addMessages } from '../slices/messagesSlice.js';
 import useAuth from '../hooks/useAuth';
 
 const Chat = () => {
@@ -23,9 +23,11 @@ const Chat = () => {
     )
       .then((res) => {
         const { channels, messages, currentChannelId } = res.data;
-        dispatch(channelsActions.toggleChannel(currentChannelId));
-        dispatch(channelsActions.addChannels(channels));
-        dispatch(messagesActions.addMessages(messages));
+        console.log('msgs after reload', messages);
+        dispatch(toggleChannel(currentChannelId));
+        console.log({ channels });
+        dispatch(addChannels(channels));
+        dispatch(addMessages(messages));
         setLoad(true);
       })
       .catch((er) => {
