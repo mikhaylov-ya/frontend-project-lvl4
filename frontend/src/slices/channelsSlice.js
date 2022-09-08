@@ -1,23 +1,33 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createAction } from '@reduxjs/toolkit';
+
+const channelsAdapter = createEntityAdapter();
+const addChannel = createAction('addChannel');
+const addChannels = createAction('addChannels');
+const removeChannel = createAction('removeChannel');
+const toggleChannel = createAction('toggleChannel');
+const renameChannel = createAction('renameChannel');
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: { entities: [], activeChannel: null },
-  reducers: {
-    addChannel: (state, { payload }) => { state.entities.push(payload); },
-    addChannels: (state, { payload }) => { state.entities = payload; },
-    removeChannel: (state, { payload }) => {
-      state.entities = state.entities.filter((ch) => ch.id !== payload.id);
-    },
-    toggleChannel: (state, { payload }) => { state.activeChannel = payload; },
-    renameChannel: (state, { payload }) => {
-      const target = state.entities.find((ch) => ch.id === payload.id);
-      target.name = payload.name;
-    },
+  initialState: channelsAdapter.getInitialState({
+    activeChannel: null,
+  }),
+  extraReducers: (builder) => {
+    builder
+      .addCase(addChannel, channelsAdapter.addOne)
+      .addCase(addChannels, channelsAdapter.setAll)
+      .addCase(removeChannel, channelsAdapter.removeOne)
+      .addCase(toggleChannel, (state, { payload }) => { state.activeChannel = payload; })
+      .addCase(renameChannel, (state, { payload }) => {
+        const target = Object.values(state.entities).find((ch) => ch.id === payload.id);
+        target.name = payload.name;
+      });
   },
 });
 
 export default channelsSlice.reducer;
 
-export const { actions } = channelsSlice;
+export {
+  addChannel, addChannels, removeChannel, toggleChannel, renameChannel,
+};

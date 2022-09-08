@@ -14,7 +14,8 @@ import { getRenameSchema } from '../../schemas';
 const Add = ({ hideModal, open }) => {
   const { t } = useTranslation();
   const socket = useSocket();
-  const { entities: channels } = useSelector((state) => state.channels);
+  const { entities } = useSelector((state) => state.channels);
+  const channels = Object.values(entities);
   const channelNames = channels.map(({ name }) => name);
 
   const f = useFormik({
@@ -67,20 +68,20 @@ const Add = ({ hideModal, open }) => {
               error={Boolean(f.errors.name)}
               autoFocus
             />
+            <DialogActions>
+              <Button onClick={hideModal}>
+                {t('buttons.cancel')}
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                disabled={f.isSubmitting}
+              >
+                {t('buttons.submit')}
+              </Button>
+            </DialogActions>
           </Form>
         </FormikProvider>
-        <DialogActions>
-          <Button onClick={hideModal}>
-            {t('buttons.cancel')}
-          </Button>
-          <Button
-            type="submit"
-            color="primary"
-            disabled={f.isSubmitting}
-          >
-            {t('buttons.submit')}
-          </Button>
-        </DialogActions>
       </DialogContent>
     </Dialog>
   );

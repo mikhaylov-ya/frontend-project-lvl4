@@ -16,7 +16,3 @@ build-frontend:
 
 lint:
 	npx eslint frontend/src
-
-restart:
-	make build-frontend
-	make start

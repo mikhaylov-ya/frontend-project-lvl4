@@ -8,8 +8,10 @@ import SocketProvider from './components/SocketProvider';
 import App from './components/App';
 import store from './slices/index.js';
 import resources from './locales/index.js';
-import { actions as messagesActions } from './slices/messagesSlice.js';
-import { actions as channelsActions } from './slices/channelsSlice';
+import { addMessage } from './slices/messagesSlice.js';
+import {
+  addChannel, removeChannel, renameChannel, toggleChannel,
+} from './slices/channelsSlice';
 
 const init = async (socket) => {
   const i18nInst = i18n.createInstance();
@@ -31,19 +33,20 @@ const init = async (socket) => {
 
   filter.loadDictionary('ru');
   socket.on('newMessage', (payload) => {
-    store.dispatch(messagesActions.addMessage(payload));
+    store.dispatch(addMessage(payload));
   });
 
   socket.on('newChannel', (payload) => {
-    store.dispatch(channelsActions.addChannel(payload));
+    store.dispatch(addChannel(payload));
+    store.dispatch(toggleChannel(payload.id));
   });
 
   socket.on('renameChannel', (payload) => {
-    store.dispatch(channelsActions.renameChannel(payload));
+    store.dispatch(renameChannel(payload));
   });
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(channelsActions.removeChannel(payload));
+    store.dispatch(removeChannel(payload.id));
   });
 
   return (

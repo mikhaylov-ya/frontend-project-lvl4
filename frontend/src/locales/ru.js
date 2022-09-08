@@ -18,6 +18,8 @@ export default {
       delete: 'Удалить',
       signup: 'Зарегистрироваться',
       login: 'Войти',
+      rename: 'Переименовать',
+      remove: 'Удалить',
     },
     labels: {
       channels: {
@@ -26,7 +28,7 @@ export default {
       messages: {
         input: 'Ввести сообщение',
       },
-      username: 'Ваш ник',
+      username: 'Имя пользователя',
       password: 'Пароль',
       confirm: 'Подтвердите пароль',
     },
