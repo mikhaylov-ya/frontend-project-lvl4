@@ -10,5 +10,21 @@
 * Socket.io
 * Yup, Leo-Profanity
 
+### Development
+
+```
+make start
+```
+On *localhost:3000*
+
+### Production
+
+```
+make build-frontend
+make start
+```
+On *localhost:5001*
+
+
 ### Deployment
 [Heroku](https://whispering-mesa-02615.herokuapp.com/)
