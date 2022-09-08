@@ -77,12 +77,13 @@ const MessageList = () => {
   console.log('selected msgs', messageArr);
   const currMessages = messageArr.filter(({ from }) => from === activeChannel);
 
-  return currMessages.map(({ id, username, text }) => (
+  const messageList = currMessages.map(({ id, username, text }) => (
     <p key={id}>
       <b>{`${username}: `}</b>
       {text}
     </p>
   ));
+  return <div>{messageList}</div>;
 };
 
 export { MessageForm, MessageList };

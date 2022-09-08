@@ -28,7 +28,7 @@ export default {
       messages: {
         input: 'Ввести сообщение',
       },
-      username: 'Ваш ник',
+      username: 'Имя пользователя',
       password: 'Пароль',
       confirm: 'Подтвердите пароль',
     },

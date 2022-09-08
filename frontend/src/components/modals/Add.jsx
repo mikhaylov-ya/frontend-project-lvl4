@@ -68,20 +68,20 @@ const Add = ({ hideModal, open }) => {
               error={Boolean(f.errors.name)}
               autoFocus
             />
+            <DialogActions>
+              <Button onClick={hideModal}>
+                {t('buttons.cancel')}
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                disabled={f.isSubmitting}
+              >
+                {t('buttons.submit')}
+              </Button>
+            </DialogActions>
           </Form>
         </FormikProvider>
-        <DialogActions>
-          <Button onClick={hideModal}>
-            {t('buttons.cancel')}
-          </Button>
-          <Button
-            type="submit"
-            color="primary"
-            disabled={f.isSubmitting}
-          >
-            {t('buttons.submit')}
-          </Button>
-        </DialogActions>
       </DialogContent>
     </Dialog>
   );

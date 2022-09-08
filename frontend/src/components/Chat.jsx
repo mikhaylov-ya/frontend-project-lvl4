@@ -40,19 +40,18 @@ const Chat = () => {
     : (
       <Grid
         sx={{ mt: 7 }}
-        spacing={3}
         container
         justifyContent="center"
-        alignItems="center"
       >
-        <Grid item xs="3">
+        <Grid item xs={3} style={{ maxHeight: '50vh', overflow: 'auto' }}>
           <ChannelList />
         </Grid>
-        <Grid item xs="7">
+        <Grid item xs={7}>
           <Paper
             square
             elevation={5}
-            style={{ height: '50vh' }}
+            style={{ height: '50vh', maxHeight: '100%', overflow: 'auto' }}
+            sx={{ px: 3 }}
           >
             <MessageList />
           </Paper>
