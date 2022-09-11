@@ -4,13 +4,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Button, Container, TextField,
-} from '@mui/material';
 import { toast } from 'react-toastify';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
 import { signUpSchema } from '../schemas/index.js';
+import FormInput from './Inputs/FormInput.jsx';
 
 const SignUpForm = () => {
   const auth = useAuth();
@@ -48,50 +46,59 @@ const SignUpForm = () => {
   });
 
   return (
-    <Container>
+    <div>
       <h1>{t('nav.signup')}</h1>
       <FormikProvider value={f}>
         <Form>
           <Field
-            sx={{ mx: 2 }}
-            label={t('labels.username')}
-            as={TextField}
-            type="text"
+            as={<FormInput type="text" key="labels.username" />}
             name="username"
             id="username"
-            helperText={t(f.errors.username)}
-            error={Boolean(f.errors.username)}
           />
+          {f.errors.username && <p className="mt-2 text-sm text-red-600">{t(f.errors.username)}</p>}
           <Field
-            sx={{ mx: 2 }}
-            label={t('labels.password')}
-            as={TextField}
-            type="password"
+            as={<FormInput type="password" key="labels.password" />}
             name="password"
             id="password"
-            helperText={t(f.errors.password)}
-            error={Boolean(f.errors.password)}
           />
+          {f.errors.password && <p className="mt-2 text-sm text-red-600">{t(f.errors.password)}</p>}
           <Field
-            sx={{ mx: 2 }}
-            label={t('labels.confirm')}
-            as={TextField}
-            type="password"
+            as={<FormInput type="password" key="labels.confirmation" />}
             name="confirmation"
             id="confirmation"
-            helperText={t(f.errors.confirmation)}
-            error={Boolean(f.errors.confirmation)}
           />
-          <Button
+          {f.errors.confirmation && <p className="mt-2 text-sm text-red-600">{t(f.errors.confirmation)}</p>}
+          <button
+            className="
+              mt-3 w-full
+              justify-center
+              rounded-md
+              border
+              border-gray-300
+              bg-white
+              px-4
+              py-2
+              text-base
+              font-medium
+              text-gray-700
+              shadow-sm
+              hover:bg-gray-50
+              focus:outline-none
+              focus:ring-2
+              focus:ring-indigo-500
+              focus:ring-offset-2
+              sm:mt-0
+              sm:ml-3
+              sm:w-auto
+              sm:text-sm"
             type="submit"
-            color="primary"
             disabled={f.isSubmitting || !f.dirty}
           >
             {t('buttons.signup')}
-          </Button>
+          </button>
         </Form>
       </FormikProvider>
-    </Container>
+    </div>
   );
 };
 

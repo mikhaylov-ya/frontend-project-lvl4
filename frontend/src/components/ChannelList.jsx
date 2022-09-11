@@ -1,14 +1,9 @@
-import {
-  Divider, List, ListItemButton, ListItemText, IconButton, ListItem, ListItemSecondaryAction,
-  ListSubheader, Menu, MenuItem, Typography,
-} from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
-import MoreVertIcon from '@mui/icons-material/MoreVertSharp';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleChannel } from '../slices/channelsSlice.js';
 import getModal from './modals/index.jsx';
+import DropdownMenu from './Dropdown.jsx';
 
 const renderModal = (type, modalInfo) => {
   if (!type) return null;
@@ -16,19 +11,34 @@ const renderModal = (type, modalInfo) => {
   return <Modal {...modalInfo} />;
 };
 
+const classNames = (...classes) => classes.filter(Boolean).join(' ');
+
+const ListItem = ({ active, text }) => {
+  const activeStyle = 'rounded-t-lg bg-blue-600 text-white';
+  const ordinaryStyle = 'hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-0 focus:bg-gray-200 focus:text-gray-600 transition duration-500';
+  const selectStatus = active ? activeStyle : ordinaryStyle;
+  const classes = `text-left px-6 py-2 border-b border-gray-200 w-full cursor-pointer ${selectStatus}`;
+
+  return (
+    <button
+      aria-current="true"
+      type="button"
+      className={classNames(classes)}
+    >
+      {text}
+    </button>
+  );
+};
+
 const ChannelList = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, open: false, id: null });
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const showModal = (type, id) => {
     setModalInfo({ type, open: true, id });
-    setAnchorEl(null);
   };
+
   const hideModal = () => setModalInfo({ type: null, open: false, id: null });
+
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -39,61 +49,31 @@ const ChannelList = () => {
   const { activeChannel, entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
   console.log({ channels, activeChannel });
+
   return (
-    <List>
-      <ListSubheader>
-        {t('channelList')}
-        <IconButton onClick={() => showModal('adding', null)}>
-          <AddIcon color="primary" />
-        </IconButton>
-      </ListSubheader>
-      {Object.values(channels).map((ch) => (
-        <div key={ch.id}>
-          <ListItem>
-            <ListItemButton
+    <div className="flex justify-center">
+      <p className="inline">{t('channelList')}</p>
+      <button type="button" onClick={() => showModal('adding', null)}>+</button>
+      <ul className="bg-white rounded-lg border border-gray-200 w-96 text-gray-900">
+        {Object.values(channels).map((ch) => (
+          <div key={ch.id}>
+            <ListItem
               onClick={() => selectChannel(ch.id)}
-              selected={ch.id === activeChannel}
-            >
-              <ListItemText primary={`# ${ch.name}`} />
-            </ListItemButton>
+              active={ch.id === activeChannel}
+              text={`# ${ch.name}`}
+            />
             {ch.removable ? (
-              <ListItemSecondaryAction>
-                <div>
-                  <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? 'long-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="long-menu"
-                    MenuListProps={{
-                      'aria-labelledby': 'long-button',
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem divider onClick={() => showModal('renaming', ch.id)}>
-                      <Typography variant="button">{t('buttons.rename')}</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => showModal('removing', ch.id)}>
-                      <Typography variant="button">{t('buttons.remove')}</Typography>
-                    </MenuItem>
-                  </Menu>
-                </div>
-              </ListItemSecondaryAction>
+              <DropdownMenu items={[
+                { showModal: () => showModal('renaming', ch.id), text: t('buttons.rename') },
+                { showModal: () => showModal('removing', ch.id), text: t('buttons.removing') },
+              ]}
+              />
             ) : null}
-          </ListItem>
-          {renderModal(modalInfo.type, { ...modalInfo, hideModal })}
-          <Divider />
-        </div>
-      ))}
-    </List>
+          </div>
+        ))}
+      </ul>
+      {renderModal(modalInfo.type, { ...modalInfo, hideModal })}
+    </div>
   );
 };
 

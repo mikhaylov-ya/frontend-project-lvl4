@@ -52,13 +52,13 @@ const init = async (socket) => {
   return (
     <Rollbar config={rollbarConfig}>
       <ErrorBoundary>
-        <Provider store={store}>
-          <SocketProvider>
-            <AuthProvider>
+        <SocketProvider>
+          <AuthProvider>
+            <Provider store={store}>
               <App />
-            </AuthProvider>
-          </SocketProvider>
-        </Provider>
+            </Provider>
+          </AuthProvider>
+        </SocketProvider>
       </ErrorBoundary>
     </Rollbar>
   );

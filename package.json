@@ -21,6 +21,6 @@
     "@hexlet/chat-server": "^1.1.6"
   },
   "devDependencies": {
-    "npm-watch": "^0.11.0"
+    "@tailwindcss/forms": "^0.5.3"
   }
 }

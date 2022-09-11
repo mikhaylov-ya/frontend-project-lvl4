@@ -1,28 +1,35 @@
 import { Link } from 'react-router-dom';
-import {
-  Button, AppBar, Toolbar,
-} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
 
+export const NavButton = ({ text, link }) => (
+  <button type="button" className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300">
+    <Link to={link}>{text}</Link>
+  </button>
+);
+
 const Navigation = () => {
   const { t } = useTranslation();
-  const basicBtnStyles = {
-    mx: 2,
-  };
+
   const { logOut, currUser } = useAuth();
-  const LoginBtn = <Button variant="contained" sx={basicBtnStyles} component={Link} to="login">{t('nav.login')}</Button>;
-  const LogoutBtn = <Button variant="contained" sx={basicBtnStyles} onClick={() => logOut()}>{t('nav.logout')}</Button>;
+  const LoginBtn = <NavButton text={t('nav.login')} link="login" />;
+  const LogoutBtn = (
+    <button
+      type="button"
+      className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+      onClick={() => logOut()}
+    >
+      {t('nav.logout')}
+    </button>
+  );
 
   return (
-    <AppBar color="primary" position="static">
-      <Toolbar>
-        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="/">{t('nav.home')}</Button>
-        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="about">{t('nav.about')}</Button>
-        <Button color="info" sx={basicBtnStyles} variant="contained" component={Link} to="signup">{t('nav.signup')}</Button>
-        {currUser ? LogoutBtn : LoginBtn}
-      </Toolbar>
-    </AppBar>
+    <nav className="flex sm:justify-center space-x-4">
+      <NavButton text={t('nav.home')} link="/" />
+      <NavButton text={t('nav.about')} link="about" />
+      <NavButton text={t('nav.signup')} link="signup" />
+      {currUser ? LogoutBtn : LoginBtn}
+    </nav>
   );
 };
 

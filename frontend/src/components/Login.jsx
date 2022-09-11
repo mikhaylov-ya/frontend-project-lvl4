@@ -3,11 +3,10 @@ import {
 } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Button, Container, TextField,
-} from '@mui/material';
+import { NavButton } from './Navigation.jsx';
+import FormInput from './Inputs/FormInput.jsx';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
 import { loginSchema } from '../schemas/index.js';
@@ -16,10 +15,6 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
-
-  const fieldStyles = {
-    mx: 2,
-  };
 
   const f = useFormik({
     initialValues: {
@@ -46,41 +41,55 @@ const LoginForm = () => {
   });
 
   return (
-    <Container className="bg-light border">
+    <div className="bg-light bd-gray-500">
       <h1>{t('nav.login')}</h1>
       <FormikProvider value={f}>
         <Form>
           <Field
-            label={t('labels.username')}
-            as={TextField}
-            type="text"
+            as={<FormInput type="text" key="labels.username" />}
             name="username"
             id="username"
-            sx={fieldStyles}
-            helperText={t(f.errors.username)}
-            error={Boolean(f.errors.username)}
           />
+          {f.errors.username && <p className="mt-2 text-sm text-red-600">{t(f.errors.username)}</p>}
           <Field
-            label={t('labels.password')}
-            as={TextField}
-            type="password"
+            as={<FormInput type="password" key="labels.password" />}
             name="password"
             id="password"
-            sx={fieldStyles}
-            helperText={t(f.errors.password)}
-            error={Boolean(f.errors.password)}
           />
-          <Button
+          {f.errors.password && <p className="mt-2 text-sm text-red-600">{t(f.errors.password)}</p>}
+
+          <button
+            className="
+              mt-3 w-full
+              justify-center
+              rounded-md
+              border
+              border-gray-300
+              bg-white
+              px-4
+              py-2
+              text-base
+              font-medium
+              text-gray-700
+              shadow-sm
+              hover:bg-gray-50
+              focus:outline-none
+              focus:ring-2
+              focus:ring-indigo-500
+              focus:ring-offset-2
+              sm:mt-0
+              sm:ml-3
+              sm:w-auto
+              sm:text-sm"
             type="submit"
-            color="primary"
             disabled={f.isSubmitting || !f.dirty}
           >
             {t('buttons.login')}
-          </Button>
+          </button>
         </Form>
       </FormikProvider>
-      <Button component={Link} to="/signup">{t('nav.signup')}</Button>
-    </Container>
+      <NavButton text={t('nav.signup')} link="signup" />
+    </div>
   );
 };
 
