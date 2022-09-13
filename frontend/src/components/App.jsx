@@ -22,7 +22,7 @@ const PrivateRoute = () => {
 
 const App = () => (
   <BrowserRouter>
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4 max-w-xl mt-4">
       <Navigation />
       <Routes>
         <Route path="/" element={<PrivateRoute />}>

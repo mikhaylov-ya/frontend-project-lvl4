@@ -9,3 +9,6 @@ build:
 
 lint:
 	npx eslint .
+
+style:
+	npx tailwindcss build -i src/assets/tailwind.css -o src/assets/main.css

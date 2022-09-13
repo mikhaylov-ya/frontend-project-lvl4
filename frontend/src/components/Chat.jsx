@@ -11,9 +11,7 @@ import useAuth from '../hooks/useAuth';
 
 const Loader = () => (
   <div className="flex items-center justify-center">
-    <div className="spinner-border animate-spin inline-block w-14 h-14 border-4 rounded-full text-purple-500" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
+    <div className="spinner-border animate-spin inline-block w-14 h-14 border-4 rounded-full text-purple-500" role="status" />
   </div>
 );
 
@@ -45,11 +43,11 @@ const Chat = () => {
   return !isLoaded
     ? <Loader />
     : (
-      <div className="grid-cols-12 gap-4">
+      <div className="grid-cols-15 gap-2">
         <div className="col-span-3">
           <ChannelList />
         </div>
-        <div className="col-span-7">
+        <div className="col-span-6">
           <MessageList />
         </div>
         <div className="col-span-6">

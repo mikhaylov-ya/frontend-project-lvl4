@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { NavButton } from './Navigation.jsx';
-import FormInput from './Inputs/FormInput.jsx';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
 import { loginSchema } from '../schemas/index.js';
@@ -45,14 +44,30 @@ const LoginForm = () => {
       <h1>{t('nav.login')}</h1>
       <FormikProvider value={f}>
         <Form>
+          <label className="block" htmlFor="username">
+            <span className="text-gray-700">
+              {t('labels.username')}
+            </span>
+          </label>
           <Field
-            as={<FormInput type="text" key="labels.username" />}
+            className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+            as="input"
+            type="text"
+            autoFocus
             name="username"
             id="username"
           />
           {f.errors.username && <p className="mt-2 text-sm text-red-600">{t(f.errors.username)}</p>}
+          <label className="block" htmlFor="password">
+            <span className="text-gray-700">
+              {t('labels.password')}
+            </span>
+          </label>
           <Field
-            as={<FormInput type="password" key="labels.password" />}
+            className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+            as="input"
+            type="text"
+            autoFocus
             name="password"
             id="password"
           />
@@ -88,7 +103,7 @@ const LoginForm = () => {
           </button>
         </Form>
       </FormikProvider>
-      <NavButton text={t('nav.signup')} link="signup" />
+      <NavButton text={t('nav.signup')} link="/signup" />
     </div>
   );
 };

@@ -10,8 +10,6 @@ import useSocket from '../hooks/useSocket.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 import { messageSchema } from '../schemas/index.js';
 
-// const MessageInput = <FormInput type="text" key="labels.messages.input" />;
-
 const MessageForm = () => {
   const { t } = useTranslation();
   const { currUser } = useAuth();
@@ -43,7 +41,13 @@ const MessageForm = () => {
   return (
     <FormikProvider value={formik}>
       <Form>
+        <label className="block" htmlFor="message">
+          <span className="text-gray-700">
+            {t('labels.messages.input')}
+          </span>
+        </label>
         <Field
+          className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
           name="message"
           id="message"
           as="input"
@@ -65,7 +69,7 @@ const MessageForm = () => {
               font-medium
               text-gray-700"
         >
-          {t('buttons.submit')}
+          <span>{t('buttons.submit')}</span>
           <PaperAirplaneIcon />
         </button>
       </Form>
