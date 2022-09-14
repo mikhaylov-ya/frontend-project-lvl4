@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket';
@@ -26,66 +25,26 @@ const Remove = ({ hideModal, open, id }) => {
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>
-          <Modal.Body>
-            {t('modals.removeBody')}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              onClick={hideModal}
-              variant="light"
-            >
-              {t('buttons.cancel')}
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={f.isSubmitting}
-            >
-              {t('buttons.submit')}
-            </Button>
-          </Modal.Footer>
+      <Modal.Body>
+        {t('modals.removeBody')}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          onClick={hideModal}
+          variant="light"
+        >
+          {t('buttons.cancel')}
+        </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          onClick={removeChannel}
+        >
+          {t('buttons.submit')}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
-};
-  // return (
-  //   <Dialog
-  //     open={open}
-  //     onClose={hideModal}
-  //   >
-  //     <DialogTitle>
-  //       {t('modals.remove')}
-  //       <IconButton
-  //         onClick={hideModal}
-  //         sx={{
-  //           position: 'absolute',
-  //           right: 8,
-  //           top: 8,
-  //         }}
-  //       >
-  //         <CloseIcon />
-  //       </IconButton>
-  //     </DialogTitle>
-  //     <DialogContent>
-
-  //       <DialogActions>
-  //         <Button
-  //           onClick={removeChannel}
-  //           color="warning"
-  //           variant="contained"
-  //         >
-  //           {t('buttons.delete')}
-  //         </Button>
-  //         <Button
-  //           onClick={hideModal}
-  //           type="submit"
-  //           color="primary"
-  //         >
-  //           {t('buttons.cancel')}
-  //         </Button>
-  //       </DialogActions>
-  //     </DialogContent>
-  //   </Dialog>
-  // );
 };
 
 export default Remove;
