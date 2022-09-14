@@ -37,10 +37,10 @@ const Remove = ({ hideModal, open, id }) => {
         </Button>
         <Button
           type="submit"
-          variant="primary"
+          variant="danger"
           onClick={removeChannel}
         >
-          {t('buttons.submit')}
+          {t('buttons.remove')}
         </Button>
       </Modal.Footer>
     </Modal>

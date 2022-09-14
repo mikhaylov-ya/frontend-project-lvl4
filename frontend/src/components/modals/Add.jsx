@@ -44,7 +44,6 @@ const Add = ({ hideModal, open }) => {
       </Modal.Header>
       <FormikProvider value={f}>
         <FormikForm>
-
           <Modal.Body>
             <Form.Group>
               <Form.Label>{t('labels.channels.name')}</Form.Label>

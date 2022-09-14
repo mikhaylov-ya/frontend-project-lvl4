@@ -22,6 +22,7 @@ export default {
       rename: 'Переименовать',
       remove: 'Удалить',
     },
+    loading: 'Загрузка...',
     labels: {
       channels: {
         name: 'Имя канала',

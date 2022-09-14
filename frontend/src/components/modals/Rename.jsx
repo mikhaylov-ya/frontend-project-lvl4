@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import {
-  useFormik, Field, Form, FormikProvider,
+  useFormik, Field, Form as FormikForm, FormikProvider,
 } from 'formik';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
-import CloseIcon from '@mui/icons-material/Close';
-import {
-  Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, IconButton,
-} from '@mui/material';
 import { useSelector } from 'react-redux';
 import useSocket from '../../hooks/useSocket';
 import { getRenameSchema } from '../../schemas';
@@ -41,50 +40,48 @@ const Rename = ({ hideModal, open, id }) => {
   });
 
   return (
-    <Dialog
-      open={open}
-      onClose={hideModal}
-    >
-      <DialogTitle>
-        {t('modals.rename')}
-        <IconButton
-          onClick={hideModal}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent>
-        <FormikProvider value={f}>
-          <Form>
-            <Field
-              label={t('labels.channels.name')}
-              as={TextField}
-              type="text"
-              name="name"
-              id="name"
-              helperText={t(f.errors.name)}
-              error={Boolean(f.errors.name)}
-            />
-            <DialogActions>
-              <Button onClick={hideModal}>
-                {t('buttons.cancel')}
-              </Button>
-              <Button
-                type="submit"
-                disabled={f.isSubmitting}
-              >
-                {t('buttons.submit')}
-              </Button>
-            </DialogActions>
-          </Form>
-        </FormikProvider>
-      </DialogContent>
-    </Dialog>
+    <Modal show={open} onHide={hideModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.rename')}</Modal.Title>
+      </Modal.Header>
+      <FormikProvider value={f}>
+        <FormikForm>
+          <Modal.Body>
+            <Form.Group>
+              <Form.Label>{t('labels.channels.name')}</Form.Label>
+              <Field
+                className="mb-2"
+                as={Form.Control}
+                type="text"
+                name="name"
+                id="name"
+                autoFocus
+                isInvalid={f.errors.name && f.touched.name}
+              />
+              <Form.Control.Feedback type="invalid">
+                {t(f.errors.name)}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              onClick={hideModal}
+              variant="light"
+            >
+              {t('buttons.cancel')}
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={f.isSubmitting}
+            >
+              {t('buttons.submit')}
+            </Button>
+          </Modal.Footer>
+        </FormikForm>
+      </FormikProvider>
+    </Modal>
   );
 };
 

@@ -60,12 +60,10 @@ const ChannelList = () => {
             {ch.removable
               ? (
                 <Dropdown as={ButtonGroup} className="d-flex">
-                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)}>
-                    <span className="visually-hidden">{t('channels.menu')}</span>
-                  </Dropdown.Toggle>
+                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)} />
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => showModal('renaming')}>{t('modals.rename')}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => showModal('removing')}>{t('modals.remove')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => showModal('renaming', ch.id)}>{t('modals.rename')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => showModal('removing', ch.id)}>{t('modals.remove')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               ) : null}
