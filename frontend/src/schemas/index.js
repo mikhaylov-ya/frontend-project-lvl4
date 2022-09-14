@@ -3,8 +3,6 @@ import * as yup from 'yup';
 yup.setLocale({
   mixed: {
     required: 'errors.required',
-    oneOf: 'errors.confirm',
-    notOneOf: 'errors.channels.alreadyExists',
   },
   string: {
     min: 'errors.username.min',
@@ -34,7 +32,7 @@ const getRenameSchema = (channels) => yup.object().shape({
     .required()
     .min(3)
     .max(20)
-    .notOneOf(channels),
+    .notOneOf(channels, 'errors.channels.alreadyExists'),
 });
 
 const signUpSchema = yup.object().shape({
@@ -45,11 +43,11 @@ const signUpSchema = yup.object().shape({
   password: yup.string()
     .required()
     .min(6, 'errors.password.min')
-    .matches(/[a-zA-Z0-9]/),
+    .matches(/[a-zA-Z0-9]/, 'errors.password.match'),
   confirmation: yup.string()
     .required()
     .min(6, 'errors.password.min')
-    .oneOf([yup.ref('password'), null]),
+    .oneOf([yup.ref('password'), null], 'errors.confirm'),
 });
 
 export {

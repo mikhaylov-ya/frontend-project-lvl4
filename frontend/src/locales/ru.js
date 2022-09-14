@@ -4,6 +4,7 @@ export default {
       add: 'Добавить новый канал',
       rename: 'Переименовать канал',
       remove: 'Удалить канал',
+      removeBody: 'Вы точно хотите удалить этот канал?',
     },
     nav: {
       logout: 'Выйти',
@@ -21,6 +22,7 @@ export default {
       rename: 'Переименовать',
       remove: 'Удалить',
     },
+    loading: 'Загрузка...',
     labels: {
       channels: {
         name: 'Имя канала',

@@ -1,10 +1,6 @@
-import {
-  Divider, List, ListItemButton, ListItemText, IconButton, ListItem, ListItemSecondaryAction,
-  ListSubheader, Menu, MenuItem, Typography,
-} from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
-import MoreVertIcon from '@mui/icons-material/MoreVertSharp';
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { PlusSquare } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleChannel } from '../slices/channelsSlice.js';
@@ -18,15 +14,9 @@ const renderModal = (type, modalInfo) => {
 
 const ChannelList = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, open: false, id: null });
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const showModal = (type, id) => {
     setModalInfo({ type, open: true, id });
-    setAnchorEl(null);
   };
   const hideModal = () => setModalInfo({ type: null, open: false, id: null });
   const { t } = useTranslation();
@@ -38,62 +28,50 @@ const ChannelList = () => {
 
   const { activeChannel, entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
+  const setBtnStyle = (id) => (activeChannel === id ? 'secondary' : 'primary');
   console.log({ channels, activeChannel });
   return (
-    <List>
-      <ListSubheader>
-        {t('channelList')}
-        <IconButton onClick={() => showModal('adding', null)}>
-          <AddIcon color="primary" />
-        </IconButton>
-      </ListSubheader>
-      {Object.values(channels).map((ch) => (
-        <div key={ch.id}>
-          <ListItem>
-            <ListItemButton
+    <>
+      <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
+        <span>{t('channelList')}</span>
+        <Button
+          type="button"
+          variant="group-vertical"
+          className="p-0 text-primary"
+          onClick={() => showModal('adding', null)}
+        >
+          <PlusSquare size={20} />
+          <span className="visually-hidden">+</span>
+        </Button>
+      </div>
+      <ul className="nav flex-column nav-pills nav-fill px-2">
+        {Object.values(channels).map((ch) => (
+          <li key={ch.id} className="nav-item w-100">
+            <Button
+              type="button"
+              key={ch.id}
+              className="w-100 rounded-0 text-start text-truncate"
               onClick={() => selectChannel(ch.id)}
-              selected={ch.id === activeChannel}
+              variant={setBtnStyle(ch.id)}
             >
-              <ListItemText primary={`# ${ch.name}`} />
-            </ListItemButton>
-            {ch.removable ? (
-              <ListItemSecondaryAction>
-                <div>
-                  <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? 'long-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="long-menu"
-                    MenuListProps={{
-                      'aria-labelledby': 'long-button',
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem divider onClick={() => showModal('renaming', ch.id)}>
-                      <Typography variant="button">{t('buttons.rename')}</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => showModal('removing', ch.id)}>
-                      <Typography variant="button">{t('buttons.remove')}</Typography>
-                    </MenuItem>
-                  </Menu>
-                </div>
-              </ListItemSecondaryAction>
-            ) : null}
-          </ListItem>
-          {renderModal(modalInfo.type, { ...modalInfo, hideModal })}
-          <Divider />
-        </div>
-      ))}
-    </List>
+              <span className="me-1">#</span>
+              {ch.name}
+            </Button>
+            {ch.removable
+              ? (
+                <Dropdown as={ButtonGroup} className="d-flex">
+                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)} />
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => showModal('renaming', ch.id)}>{t('modals.rename')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => showModal('removing', ch.id)}>{t('modals.remove')}</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : null}
+          </li>
+        ))}
+      </ul>
+      {renderModal(modalInfo.type, { ...modalInfo, hideModal })}
+    </>
   );
 };
 
