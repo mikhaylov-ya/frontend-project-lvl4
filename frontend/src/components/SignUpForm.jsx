@@ -4,9 +4,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  Button, Container, TextField,
-} from '@mui/material';
 import { toast } from 'react-toastify';
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';

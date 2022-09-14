@@ -5,7 +5,6 @@ import {
   Navigate,
   Outlet,
 } from 'react-router-dom';
-import { Box } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import Login from './Login.jsx';
 import Chat from './Chat.jsx';
@@ -23,7 +22,7 @@ const PrivateRoute = () => {
 
 const App = () => (
   <BrowserRouter>
-    <Box style={{ width: '80vw', margin: 'auto' }}>
+    <div className="d-flex flex-column h-100">
       <Navigation />
       <Routes>
         <Route path="/" element={<PrivateRoute />}>
@@ -34,7 +33,7 @@ const App = () => (
         <Route path="signup" element={<SignUpForm />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </Box>
+    </div>
     <ToastContainer />
   </BrowserRouter>
 );
