@@ -32,7 +32,7 @@ export default {
       },
       username: 'Имя пользователя',
       password: 'Пароль',
-      confirm: 'Подтвердите пароль',
+      confirmation: 'Подтвердите пароль',
     },
     errors: {
       required: 'Обязательное поле',
