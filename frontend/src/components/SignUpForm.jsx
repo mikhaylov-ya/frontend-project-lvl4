@@ -27,13 +27,14 @@ const SignUpForm = () => {
           navigate('/', { replace: true });
         })
         .catch((e) => {
-          console.dir(e.response.status);
+          setSubmitting(false);
           if (e.response.status === 409) {
             setErrors({ username: t('errors.signup.alreadyExists') });
           } else if (e.name === 'AxiosError') {
+            setErrors({ username: t('errors.network') });
             toast.error((t('errors.network')));
           } else {
-            setSubmitting(false);
+            console.error(e);
             throw e;
           }
         });
@@ -46,13 +47,12 @@ const SignUpForm = () => {
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
-        <h1>{t('nav.signup')}</h1>
+        <h1 className="text-center mb-4 py-2">{t('nav.signup')}</h1>
         <FormikProvider value={f}>
-          <Form onSubmit={f.handleSubmit}>
-            <Form.Group>
+          <Form className="w-50" onSubmit={f.handleSubmit}>
+            <Form.Group className="mb-3">
               <Form.Label>{t('labels.username')}</Form.Label>
               <Field
-                className="mb-2"
                 as={Form.Control}
                 type="text"
                 name="username"
@@ -64,30 +64,26 @@ const SignUpForm = () => {
                 {t(f.errors.username)}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>{t('labels.password')}</Form.Label>
               <Field
-                className="mb-2"
                 as={Form.Control}
                 type="password"
                 name="password"
                 id="password"
-                autoFocus
                 isInvalid={f.errors.password && f.touched.password}
               />
               <Form.Control.Feedback type="invalid">
                 {t(f.errors.password)}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mb-4">
               <Form.Label>{t('labels.confirmation')}</Form.Label>
               <Field
-                className="mb-2"
                 as={Form.Control}
                 type="password"
                 name="confirmation"
                 id="confirmation"
-                autoFocus
                 isInvalid={f.errors.confirmation && f.touched.confirmation}
               />
               <Form.Control.Feedback type="invalid">
@@ -98,7 +94,7 @@ const SignUpForm = () => {
             <Button
               type="submit"
               color="primary"
-              disabled={f.isSubmitting || !f.dirty}
+              className="w-100"
             >
               {t('buttons.signup')}
             </Button>

@@ -38,14 +38,16 @@ const getRenameSchema = (channels) => yup.object().shape({
 const signUpSchema = yup.object().shape({
   username: yup.string()
     .required()
+    .trim()
     .min(3)
     .max(20),
   password: yup.string()
     .required()
-    .min(6, 'errors.password.min')
-    .matches(/[a-zA-Z0-9]/, 'errors.password.match'),
+    .trim()
+    .min(6, 'errors.password.min'),
   confirmation: yup.string()
     .required()
+    .trim()
     .min(6, 'errors.password.min')
     .oneOf([yup.ref('password'), null], 'errors.confirm'),
 });
