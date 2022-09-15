@@ -1,14 +1,21 @@
 import { useTranslation } from 'react-i18next';
+<<<<<<< HEAD
 import { useState } from 'react';
+=======
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { PlusSquare } from 'react-bootstrap-icons';
+import { useState, React } from 'react';
+>>>>>>> 7c672b0 (fix linting issues)
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleChannel } from '../slices/channelsSlice.js';
 import getModal from './modals/index.jsx';
 import DropdownMenu from './Dropdown.jsx';
 
 const renderModal = (type, modalInfo) => {
+  const { open, hideModal, id } = modalInfo;
   if (!type) return null;
   const Modal = getModal(type);
-  return <Modal {...modalInfo} />;
+  return <Modal open={open} hideModal={hideModal} id={id} />;
 };
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');

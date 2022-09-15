@@ -4,6 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import React from 'react';
 import useSocket from '../../hooks/useSocket';
 import { toggleChannel } from '../../slices/channelsSlice.js';
 

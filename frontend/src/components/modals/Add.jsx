@@ -1,8 +1,15 @@
 import {
   useFormik, Field, Form, FormikProvider,
 } from 'formik';
+<<<<<<< HEAD
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useRef } from 'react';
+=======
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+>>>>>>> 7c672b0 (fix linting issues)
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

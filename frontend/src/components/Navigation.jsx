@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 import useAuth from '../hooks/useAuth';
 
 export const NavButton = ({ text, link }) => (

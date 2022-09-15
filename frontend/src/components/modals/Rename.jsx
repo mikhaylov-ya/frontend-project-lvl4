@@ -4,6 +4,13 @@ import { Fragment, useRef } from 'react';
 import {
   useFormik, Field, Form, FormikProvider,
 } from 'formik';
+<<<<<<< HEAD
+=======
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+>>>>>>> 7c672b0 (fix linting issues)
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import FormInput from '../Inputs/FormInput.jsx';
