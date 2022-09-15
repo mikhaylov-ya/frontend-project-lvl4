@@ -51,7 +51,7 @@ const SignUpForm = () => {
         <FormikProvider value={f}>
           <Form className="w-50" onSubmit={f.handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>{t('labels.username')}</Form.Label>
+              <Form.Label htmlFor="username">{t('labels.signupUsername')}</Form.Label>
               <Field
                 as={Form.Control}
                 type="text"
@@ -65,7 +65,7 @@ const SignUpForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>{t('labels.password')}</Form.Label>
+              <Form.Label htmlFor="password">{t('labels.password')}</Form.Label>
               <Field
                 as={Form.Control}
                 type="password"
@@ -78,7 +78,7 @@ const SignUpForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-4">
-              <Form.Label>{t('labels.confirmation')}</Form.Label>
+              <Form.Label htmlFor="confirmation">{t('labels.confirmation')}</Form.Label>
               <Field
                 as={Form.Control}
                 type="password"

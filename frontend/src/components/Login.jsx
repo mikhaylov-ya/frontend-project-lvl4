@@ -44,7 +44,7 @@ const LoginForm = () => {
         <FormikProvider value={f}>
           <Form onSubmit={f.handleSubmit}>
             <Form.Group>
-              <Form.Label>{t('labels.username')}</Form.Label>
+              <Form.Label htmlFor="username">{t('labels.logUsername')}</Form.Label>
               <Field
                 className="mb-2"
                 as={Form.Control}
@@ -59,7 +59,7 @@ const LoginForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
-              <Form.Label>{t('labels.password')}</Form.Label>
+              <Form.Label htmlFor="password">{t('labels.password')}</Form.Label>
               <Field
                 className="mb-2"
                 as={Form.Control}

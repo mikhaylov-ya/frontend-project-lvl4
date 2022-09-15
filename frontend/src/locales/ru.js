@@ -30,7 +30,8 @@ export default {
       messages: {
         input: 'Ввести сообщение',
       },
-      username: 'Имя пользователя',
+      logUsername: 'Ваш ник',
+      signupUsername: 'Имя пользователя',
       password: 'Пароль',
       confirmation: 'Подтвердите пароль',
     },
