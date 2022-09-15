@@ -6,7 +6,7 @@
 ### Tech Stack
 * Redux Toolkit
 * React
-* MUI
+* Bootstrap
 * Socket.io
 * Yup, Leo-Profanity
 

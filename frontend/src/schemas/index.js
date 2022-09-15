@@ -4,11 +4,6 @@ yup.setLocale({
   mixed: {
     required: 'errors.required',
   },
-  string: {
-    min: 'errors.username.min',
-    max: 'errors.username.max',
-    matches: 'errors.password.match',
-  },
 });
 
 const loginSchema = yup.object().shape({
@@ -39,8 +34,8 @@ const signUpSchema = yup.object().shape({
   username: yup.string()
     .required()
     .trim()
-    .min(3)
-    .max(20),
+    .min(3, 'errors.username.min')
+    .max(20, 'errors.username.max'),
   password: yup.string()
     .required()
     .trim()
@@ -48,7 +43,6 @@ const signUpSchema = yup.object().shape({
   confirmation: yup.string()
     .required()
     .trim()
-    .min(6, 'errors.password.min')
     .oneOf([yup.ref('password'), null], 'errors.confirm'),
 });
 
