@@ -39,11 +39,11 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="container-fluid h-100">
+    <div className="container-md h-100">
       <div className="row justify-content-center align-content-center h-100">
         <h1>{t('nav.login')}</h1>
         <FormikProvider value={f}>
-          <Form onSubmit={f.handleSubmit}>
+          <Form onSubmit={f.handleSubmit} className="w-50">
             <Form.Group>
               <Form.Label htmlFor="username">{t('labels.logUsername')}</Form.Label>
               <Field
@@ -83,7 +83,9 @@ const LoginForm = () => {
             </Button>
           </Form>
         </FormikProvider>
-        <Button component={Link} to="/signup">{t('nav.signup')}</Button>
+      </div>
+      <div className="row justify-content-center align-content-center h-100">
+        <Button variant="info" className="w-25 mt-5 text-center justify-content-center text-white" as={Link} to="/signup">{t('register')}</Button>
       </div>
     </div>
   );
