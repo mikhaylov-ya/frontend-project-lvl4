@@ -54,11 +54,7 @@ const ChannelList = () => {
               onClick={() => selectChannel(ch.id)}
               variant={setBtnStyle(ch.id)}
             >
-              <span className="me-1">
-                #
-              </span>
-              {' '}
-              {ch.name}
+              {`# ${ch.name}`}
             </Button>
             {ch.removable
               ? (
