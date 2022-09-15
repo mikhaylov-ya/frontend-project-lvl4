@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
+import { ArrowDownCircleIcon } from '@heroicons/react/20/solid';
 import React from 'react';
-import { useFormik, FormikProvider, Field } from 'formik';
-import { Form, Button } from 'react-bootstrap';
-import { ArrowRightSquare } from 'react-bootstrap-icons';
+import {
+  useFormik, FormikProvider, Field, Form,
+} from 'formik';
 import useSocket from '../hooks/useSocket.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 import { messageSchema } from '../schemas/index.js';
@@ -50,10 +51,12 @@ const MessageForm = ({ channel }) => {
           autoFocus
           className="border-0 p-0 ps-2"
         />
-        <Button variant="group-vertical" type="submit" disabled={!f.isValid || !f.dirty}>
-          <ArrowRightSquare size={20} />
-          <span className="visually-hidden">{t('buttons.submit')}</span>
-        </Button>
+        <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <button type="submit" disabled={!f.isValid || !f.dirty}>
+            <ArrowDownCircleIcon className="h-5 w-5" />
+            <span className="hidden">{t('buttons.submit')}</span>
+          </button>
+        </div>
       </Form>
     </FormikProvider>
   );

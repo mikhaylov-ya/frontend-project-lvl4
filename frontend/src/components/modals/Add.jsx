@@ -1,34 +1,25 @@
 import {
   useFormik, Field, Form, FormikProvider,
 } from 'formik';
-<<<<<<< HEAD
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useRef } from 'react';
-=======
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
->>>>>>> 7c672b0 (fix linting issues)
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import FormInput from '../Inputs/FormInput.jsx';
 import useSocket from '../../hooks/useSocket';
 import { getRenameSchema } from '../../schemas';
 
-const Add = ({ hideModal, open, id }) => {
+const Add = ({ hideModal, open }) => {
   const socket = useSocket();
   const { t } = useTranslation();
 
   const { entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
-  const currChannel = channels.find((ch) => ch.id === id);
-  const channelNames = channels.map(({ name }) => name).filter((name) => name !== currChannel.name);
+  const channelNames = channels.map(({ name }) => name);
 
   const f = useFormik({
     initialValues: {
-      name: currChannel.name,
+      name: '',
     },
     validationSchema: getRenameSchema(channelNames),
     onSubmit: (name) => {
@@ -84,7 +75,7 @@ const Add = ({ hideModal, open, id }) => {
                           </Dialog.Title>
                           <div className="mt-2">
                             <Field
-                              as={<FormInput type="text" key="modals.add" />}
+                              as="input"
                               name="name"
                               id="name"
                             />
@@ -135,7 +126,7 @@ const Add = ({ hideModal, open, id }) => {
                           sm:ml-3 sm:w-auto sm:text-sm"
                         disabled={f.isSubmitting}
                       >
-                        {t('buttons.rename')}
+                        {t('buttons.add')}
                       </button>
                     </div>
                   </Form>

@@ -20,6 +20,7 @@ export default {
       login: 'Войти',
       rename: 'Переименовать',
       remove: 'Удалить',
+      add: 'Добавить',
     },
     labels: {
       channels: {

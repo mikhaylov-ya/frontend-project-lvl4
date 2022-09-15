@@ -1,11 +1,5 @@
 import { useTranslation } from 'react-i18next';
-<<<<<<< HEAD
-import { useState } from 'react';
-=======
-import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
-import { PlusSquare } from 'react-bootstrap-icons';
 import { useState, React } from 'react';
->>>>>>> 7c672b0 (fix linting issues)
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleChannel } from '../slices/channelsSlice.js';
 import getModal from './modals/index.jsx';
@@ -72,7 +66,7 @@ const ChannelList = () => {
             {ch.removable ? (
               <DropdownMenu items={[
                 { showModal: () => showModal('renaming', ch.id), text: t('buttons.rename') },
-                { showModal: () => showModal('removing', ch.id), text: t('buttons.removing') },
+                { showModal: () => showModal('removing', ch.id), text: t('buttons.remove') },
               ]}
               />
             ) : null}

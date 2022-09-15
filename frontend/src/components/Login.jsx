@@ -1,15 +1,12 @@
 import {
   useFormik, Field, Form, FormikProvider,
 } from 'formik';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-<<<<<<< HEAD
 import { NavButton } from './Navigation.jsx';
-=======
-import React from 'react';
->>>>>>> 7c672b0 (fix linting issues)
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
 import { loginSchema } from '../schemas/index.js';
