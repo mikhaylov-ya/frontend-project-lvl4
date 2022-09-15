@@ -46,7 +46,7 @@ const Add = ({ hideModal, open }) => {
         <FormikForm>
           <Modal.Body>
             <Form.Group>
-              <Form.Label>{t('labels.channels.name')}</Form.Label>
+              <Form.Label htmlFor="name">{t('labels.channels.name')}</Form.Label>
               <Field
                 className="mb-2"
                 as={Form.Control}
