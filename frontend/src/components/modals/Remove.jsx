@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import React from 'react';
 import useSocket from '../../hooks/useSocket';
 import { toggleChannel } from '../../slices/channelsSlice.js';
 

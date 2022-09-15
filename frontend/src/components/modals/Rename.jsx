@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import {
   useFormik, Field, Form as FormikForm, FormikProvider,
 } from 'formik';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';

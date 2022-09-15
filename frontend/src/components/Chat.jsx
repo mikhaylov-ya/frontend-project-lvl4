@@ -33,7 +33,7 @@ const Chat = () => {
       .catch((er) => {
         if (er === AxiosError) toast.error(t('errors.network'));
       });
-  }, [auth, dispatch]);
+  }, [auth, dispatch, t]);
 
   return !isLoaded
     ? (

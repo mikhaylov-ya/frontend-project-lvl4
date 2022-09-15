@@ -5,6 +5,7 @@ import {
   Navigate,
   Outlet,
 } from 'react-router-dom';
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import Login from './Login.jsx';
 import Chat from './Chat.jsx';

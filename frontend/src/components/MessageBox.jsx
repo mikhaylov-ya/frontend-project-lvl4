@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
+import React from 'react';
 import { useFormik, FormikProvider, Field } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
