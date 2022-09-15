@@ -22,7 +22,7 @@ const Remove = ({ hideModal, open, id }) => {
 
   return (
     <Modal show={open} onHide={hideModal}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>

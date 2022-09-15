@@ -29,6 +29,7 @@ export default {
       },
       messages: {
         input: 'Ввести сообщение',
+        new: 'Новое сообщение',
       },
       logUsername: 'Ваш ник',
       signupUsername: 'Имя пользователя',

@@ -39,7 +39,7 @@ const Add = ({ hideModal, open }) => {
 
   return (
     <Modal show={open} onHide={hideModal}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.add')}</Modal.Title>
       </Modal.Header>
       <FormikProvider value={f}>

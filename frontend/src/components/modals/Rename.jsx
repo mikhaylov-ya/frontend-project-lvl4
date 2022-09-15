@@ -41,7 +41,7 @@ const Rename = ({ hideModal, open, id }) => {
 
   return (
     <Modal show={open} onHide={hideModal}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.rename')}</Modal.Title>
       </Modal.Header>
       <FormikProvider value={f}>

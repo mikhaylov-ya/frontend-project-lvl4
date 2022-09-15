@@ -11,7 +11,6 @@ import { messageSchema } from '../schemas/index.js';
 const MessageForm = ({ channel }) => {
   const { t } = useTranslation();
   const { currUser } = useAuth();
-  // const inputRef = useRef();
   const socket = useSocket();
 
   const f = useFormik({
@@ -46,6 +45,7 @@ const MessageForm = ({ channel }) => {
           placeholder={t('labels.messages.input')}
           name="message"
           id="message"
+          aria-label={t('labels.messages.new')}
           autoFocus
           className="border-0 p-0 ps-2"
         />
