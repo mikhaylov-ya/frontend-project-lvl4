@@ -44,7 +44,7 @@ const ChannelList = () => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <ul className="nav flex-column nav-pills nav-fill px-2">
+      <ul className="nav nav-pills nav-fill px-2">
         {Object.values(channels).map((ch) => (
           <li key={ch.id} className="nav-item w-100">
             <Button
@@ -56,9 +56,9 @@ const ChannelList = () => {
             >
               <span className="me-1">
                 #
-                {' '}
-                {ch.name}
               </span>
+              {' '}
+              {ch.name}
             </Button>
             {ch.removable
               ? (
