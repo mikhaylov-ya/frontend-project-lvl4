@@ -54,13 +54,18 @@ const ChannelList = () => {
               onClick={() => selectChannel(ch.id)}
               variant={setBtnStyle(ch.id)}
             >
-              <span className="me-1">#</span>
-              {ch.name}
+              <span className="me-1">
+                #
+                {' '}
+                {ch.name}
+              </span>
             </Button>
             {ch.removable
               ? (
                 <Dropdown as={ButtonGroup} className="d-flex">
-                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)} />
+                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)}>
+                    <span className="visually-hidden">{t('channels.menu')}</span>
+                  </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => showModal('renaming', ch.id)}>{t('modals.rename')}</Dropdown.Item>
                     <Dropdown.Item onClick={() => showModal('removing', ch.id)}>{t('modals.remove')}</Dropdown.Item>

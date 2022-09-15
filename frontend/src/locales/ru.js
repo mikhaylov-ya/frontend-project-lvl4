@@ -26,6 +26,7 @@ export default {
     labels: {
       channels: {
         name: 'Имя канала',
+        menu: 'Управление каналом',
       },
       messages: {
         input: 'Ввести сообщение',
