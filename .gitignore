@@ -5,4 +5,3 @@
 .env
 .env.development.local
 /npm-cache/
-package-lock.json
