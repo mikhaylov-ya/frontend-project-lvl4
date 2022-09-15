@@ -1,4 +1,5 @@
 import { Provider } from 'react-redux';
+import React from 'react';
 import { Provider as Rollbar, ErrorBoundary } from '@rollbar/react';
 import i18n from 'i18next';
 import * as filter from 'leo-profanity';

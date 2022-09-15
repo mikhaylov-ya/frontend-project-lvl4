@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
+=======
+import { useEffect, useState, React } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
+>>>>>>> 28382d1 (final lint fix)
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
