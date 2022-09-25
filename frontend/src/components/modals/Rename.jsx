@@ -8,13 +8,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import useSocket from '../../hooks/useSocket';
+import useApi from '../../hooks/useApi';
 import { getRenameSchema } from '../../schemas';
 
-const Rename = ({ hideModal, open, id }) => {
-  const socket = useSocket();
+const Rename = ({ closeModal }) => {
+  const socket = useApi();
   const { t } = useTranslation();
-
+  const { channelId: id } = useSelector((state) => state.modals);
   const { entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
   const currChannel = channels.find((ch) => ch.id === id);
@@ -29,7 +29,7 @@ const Rename = ({ hideModal, open, id }) => {
       const info = { name, id };
       try {
         socket.renameChannel(info);
-        hideModal();
+        closeModal();
         toast.success(t('toasts.rename'));
       } catch (e) {
         toast.error((t('errors.network')));
@@ -41,7 +41,7 @@ const Rename = ({ hideModal, open, id }) => {
   });
 
   return (
-    <Modal show={open} onHide={hideModal}>
+    <>
       <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.rename')}</Modal.Title>
       </Modal.Header>
@@ -67,7 +67,7 @@ const Rename = ({ hideModal, open, id }) => {
 
           <Modal.Footer>
             <Button
-              onClick={hideModal}
+              onClick={closeModal}
               variant="light"
             >
               {t('buttons.cancel')}
@@ -82,7 +82,7 @@ const Rename = ({ hideModal, open, id }) => {
           </Modal.Footer>
         </FormikForm>
       </FormikProvider>
-    </Modal>
+    </>
   );
 };
 

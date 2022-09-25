@@ -1,30 +1,27 @@
 import { useTranslation } from 'react-i18next';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
-import { useState, React } from 'react';
+import { React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { openModal } from '../slices/modalsSlice.js';
 import { toggleChannel } from '../slices/channelsSlice.js';
-import getModal from './modals/index.jsx';
-
-const renderModal = (type, modalInfo) => {
-  const { open, hideModal, id } = modalInfo;
-  if (!type) return null;
-  const Modal = getModal(type);
-  return <Modal open={open} hideModal={hideModal} id={id} />;
-};
 
 const ChannelList = () => {
-  const [modalInfo, setModalInfo] = useState({ type: null, open: false, id: null });
-
-  const showModal = (type, id) => {
-    setModalInfo({ type, open: true, id });
-  };
-  const hideModal = () => setModalInfo({ type: null, open: false, id: null });
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const selectChannel = (id) => {
     dispatch(toggleChannel(id));
+  };
+
+  const addChannel = () => {
+    dispatch(openModal({ type: 'adding' }));
+  };
+  const removeChannel = (channelId) => () => {
+    dispatch(openModal({ type: 'removing', channelId }));
+  };
+  const renameChannel = (channelId) => () => {
+    dispatch(openModal({ type: 'renaming', channelId }));
   };
 
   const { activeChannel, entities } = useSelector((state) => state.channels);
@@ -39,7 +36,7 @@ const ChannelList = () => {
           type="button"
           variant="group-vertical"
           className="p-0 text-primary"
-          onClick={() => showModal('adding', null)}
+          onClick={addChannel}
         >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
@@ -48,31 +45,32 @@ const ChannelList = () => {
       <ul className="nav nav-pills nav-fill px-2">
         {Object.values(channels).map((ch) => (
           <li key={ch.id} className="nav-item w-100">
-            <Button
-              type="button"
-              key={ch.id}
-              className="w-100 rounded-0 text-start text-truncate"
-              onClick={() => selectChannel(ch.id)}
-              variant={setBtnStyle(ch.id)}
-            >
-              {`# ${ch.name}`}
-            </Button>
-            {ch.removable
-              ? (
-                <Dropdown as={ButtonGroup} className="d-flex">
-                  <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)}>
-                    <span className="visually-hidden">{t('labels.channels.menu')}</span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => showModal('renaming', ch.id)}>{t('modals.rename')}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => showModal('removing', ch.id)}>{t('modals.remove')}</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : null}
+            <Dropdown as={ButtonGroup} className="d-flex">
+              <Button
+                type="button"
+                key={ch.id}
+                className="w-100 rounded-0 text-start text-truncate"
+                onClick={() => selectChannel(ch.id)}
+                variant={setBtnStyle(ch.id)}
+              >
+                {`# ${ch.name}`}
+              </Button>
+              {ch.removable
+                ? (
+                  <>
+                    <Dropdown.Toggle split className="flex-grow-0" variant={setBtnStyle(ch.id)}>
+                      <span className="visually-hidden">{t('labels.channels.menu')}</span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={renameChannel(ch.id)}>{t('modals.rename')}</Dropdown.Item>
+                      <Dropdown.Item onClick={removeChannel(ch.id)}>{t('modals.remove')}</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </>
+                ) : null}
+            </Dropdown>
           </li>
         ))}
       </ul>
-      {renderModal(modalInfo.type, { ...modalInfo, hideModal })}
     </>
   );
 };

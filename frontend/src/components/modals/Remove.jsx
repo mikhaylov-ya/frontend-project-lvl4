@@ -2,27 +2,27 @@ import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
-import useSocket from '../../hooks/useSocket';
+import useApi from '../../hooks/useApi.jsx';
 import { toggleChannel } from '../../slices/channelsSlice.js';
 
-const Remove = ({ hideModal, open, id }) => {
+const Remove = ({ closeModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const socket = useSocket();
-
+  const socket = useApi();
+  const { channelId: id } = useSelector((state) => state.modals);
   const notify = () => toast.success(t('toasts.remove'));
 
   const removeChannel = () => {
     socket.removeChannel({ id });
     dispatch(toggleChannel(1)); // navigate to general channel
-    hideModal();
+    closeModal();
     notify();
   };
 
   return (
-    <Modal show={open} onHide={hideModal}>
+    <>
       <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>
@@ -31,7 +31,7 @@ const Remove = ({ hideModal, open, id }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button
-          onClick={hideModal}
+          onClick={closeModal}
           variant="light"
         >
           {t('buttons.cancel')}
@@ -44,7 +44,8 @@ const Remove = ({ hideModal, open, id }) => {
           {t('buttons.remove')}
         </Button>
       </Modal.Footer>
-    </Modal>
+
+    </>
   );
 };
 

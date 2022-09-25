@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
+import Modal from './modals/index.jsx';
 import MessageBox from './MessageBox.jsx';
 import ChannelList from './ChannelList.jsx';
 import { toggleChannel, addChannels } from '../slices/channelsSlice.js';
@@ -44,14 +45,17 @@ const Chat = () => {
       </div>
     )
     : (
-      <div className="container h-100 my-4 rounded shadow">
-        <div className="row h-100 bg-white flex-md-row overflow-auto">
-          <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
-            <ChannelList />
+      <div style={{ 'max-height': '85vh', height: '85vh' }}>
+        <div className="container my-4 rounded shadow h-100">
+          <div className="row h-100 bg-white flex-md-row">
+            <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
+              <ChannelList />
+            </div>
+            <div className="col p-0 h-100">
+              <MessageBox />
+            </div>
           </div>
-          <div className="col p-0 h-100">
-            <MessageBox />
-          </div>
+          <Modal />
         </div>
       </div>
     );

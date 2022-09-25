@@ -8,12 +8,12 @@ import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import useSocket from '../../hooks/useSocket';
+import useApi from '../../hooks/useApi.jsx';
 import { getRenameSchema } from '../../schemas';
 
-const Add = ({ hideModal, open }) => {
+const Add = ({ closeModal }) => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const socket = useApi();
   const { entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
   const channelNames = channels.map(({ name }) => name);
@@ -26,7 +26,7 @@ const Add = ({ hideModal, open }) => {
     onSubmit: (name) => {
       try {
         socket.newChannel(name);
-        hideModal();
+        closeModal();
         toast.success(t('toasts.add'));
       } catch (e) {
         toast.error((t('errors.network')));
@@ -39,7 +39,7 @@ const Add = ({ hideModal, open }) => {
   });
 
   return (
-    <Modal show={open} onHide={hideModal}>
+    <>
       <Modal.Header closeButton closeLabel="Close">
         <Modal.Title>{t('modals.add')}</Modal.Title>
       </Modal.Header>
@@ -65,7 +65,7 @@ const Add = ({ hideModal, open }) => {
 
           <Modal.Footer>
             <Button
-              onClick={hideModal}
+              onClick={closeModal}
               variant="light"
             >
               {t('buttons.cancel')}
@@ -80,7 +80,8 @@ const Add = ({ hideModal, open }) => {
           </Modal.Footer>
         </FormikForm>
       </FormikProvider>
-    </Modal>
+
+    </>
   );
 };
 

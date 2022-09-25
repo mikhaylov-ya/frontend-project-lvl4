@@ -23,18 +23,16 @@ const PrivateRoute = () => {
 
 const App = () => (
   <BrowserRouter>
-    <div className="d-flex flex-column h-100">
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<PrivateRoute />}>
-          <Route path="" element={<Chat />} />
-        </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="about" element={<About />} />
-        <Route path="signup" element={<SignUpForm />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </div>
+    <Navigation />
+    <Routes>
+      <Route path="/" element={<PrivateRoute />}>
+        <Route path="" element={<Chat />} />
+      </Route>
+      <Route path="login" element={<Login />} />
+      <Route path="about" element={<About />} />
+      <Route path="signup" element={<SignUpForm />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
     <ToastContainer />
   </BrowserRouter>
 );
