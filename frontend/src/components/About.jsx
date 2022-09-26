@@ -1,11 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const About = () => (
-  <>
-    <h2>About</h2>
-    <p>Chat App for you guys to hang out</p>
-    <p>Do not be too shy or too rude, just chill and improvize</p>
-  </>
-);
+const About = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="text-center mb-4 py-2">
+      <h2>{t('nav.about')}</h2>
+      <p>{t('about.desc')}</p>
+      <p>{t('about.extraDesc')}</p>
+    </div>
+  );
+};
 
 export default About;

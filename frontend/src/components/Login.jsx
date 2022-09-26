@@ -41,7 +41,7 @@ const LoginForm = () => {
   return (
     <div className="container-md h-100">
       <div className="row justify-content-center align-content-center h-100">
-        <h1>{t('nav.login')}</h1>
+        <h1 className="text-center mb-4 py-2">{t('nav.login')}</h1>
         <FormikProvider value={f}>
           <Form onSubmit={f.handleSubmit} className="w-50">
             <Form.Group>

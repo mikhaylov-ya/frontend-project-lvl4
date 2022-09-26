@@ -13,6 +13,10 @@ export default {
       home: 'Hexlet Chat',
       about: 'О приложении',
     },
+    about: {
+      desc: 'Чат для общения и веселья',
+      extraDesc: 'Не хамите, но и не стесняйтесь - отдыхайте и импровизируйте',
+    },
     buttons: {
       cancel: 'Отмена',
       submit: 'Отправить',
