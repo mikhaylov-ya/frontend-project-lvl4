@@ -4,4 +4,8 @@ export default {
   loginPath: () => [apiPath, 'login'].join('/'),
   usersPath: () => [apiPath, 'data'].join('/'),
   signupPath: () => [apiPath, 'signup'].join('/'),
+  login: '/login',
+  home: '/',
+  about: '/about',
+  signup: '/signup',
 };

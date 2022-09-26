@@ -14,11 +14,12 @@ import useAuth from '../hooks/useAuth.jsx';
 import Navigation from './Navigation.jsx';
 import About from './About.jsx';
 import SignUpForm from './SignUpForm.jsx';
+import routes from '../routes.js';
 
 const PrivateRoute = () => {
   const auth = useAuth();
   console.dir('current user', auth.currUser);
-  return !auth.currUser ? <Navigate to="login" replace /> : <Outlet />;
+  return !auth.currUser ? <Navigate to={routes.signup} replace /> : <Outlet />;
 };
 
 const App = () => (

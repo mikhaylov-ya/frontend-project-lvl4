@@ -25,8 +25,8 @@ const getRenameSchema = (channels) => yup.object().shape({
     .string()
     .trim()
     .required()
-    .min(3)
-    .max(20)
+    .min(3, 'errors.username.min')
+    .max(20, 'errors.username.max')
     .notOneOf(channels, 'errors.channels.alreadyExists'),
 });
 

@@ -85,7 +85,7 @@ const LoginForm = () => {
         </FormikProvider>
       </div>
       <div className="row justify-content-center align-content-center h-100">
-        <Button variant="info" className="w-25 mt-5 text-center justify-content-center text-white" as={Link} to="/signup">{t('register')}</Button>
+        <Button variant="info" className="w-25 mt-5 text-center justify-content-center text-white" as={Link} to={routes.signup}>{t('register')}</Button>
       </div>
     </div>
   );

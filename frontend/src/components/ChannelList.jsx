@@ -26,7 +26,7 @@ const ChannelList = () => {
 
   const { activeChannel, entities } = useSelector((state) => state.channels);
   const channels = Object.values(entities);
-  const setBtnStyle = (id) => (activeChannel === id ? 'secondary' : 'primary');
+  const setBtnStyle = (id) => (activeChannel === id ? 'primary' : 'secondary');
   console.log({ channels, activeChannel });
   return (
     <>
