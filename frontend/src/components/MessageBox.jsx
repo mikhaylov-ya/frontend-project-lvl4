@@ -62,7 +62,7 @@ const MessageBox = () => {
       </div>
       <div className="mt-auto px-7 py-3">
         <FormikProvider value={f}>
-          <Form onSubmit={f.handleSubmit} onReset={f.handleReset} className="py-1 border rounded-2 my-1 mr-sm-2">
+          <Form onSubmit={f.handleSubmit} onReset={f.handleReset} className="py-1 border rounded-2 my-1 mr-sm-2 input-group">
             <Field
               as={Form.Control}
               placeholder={t('labels.messages.input')}

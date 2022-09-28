@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { Modal as ModalContainer } from 'react-bootstrap';
 import { closeModal } from '../../slices/modalsSlice.js';
 import Add from './Add.jsx';
