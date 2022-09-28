@@ -19,7 +19,7 @@ import routes from '../routes.js';
 const PrivateRoute = () => {
   const auth = useAuth();
   console.dir('current user', auth.currUser);
-  return !auth.currUser ? <Navigate to={routes.signup} replace /> : <Outlet />;
+  return !auth.currUser ? <Navigate to={routes.login} replace /> : <Outlet />;
 };
 
 const App = () => (
