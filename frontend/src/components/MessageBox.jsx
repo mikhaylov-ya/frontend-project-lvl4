@@ -60,9 +60,9 @@ const MessageBox = () => {
       <div className="overflow-auto px-5 my-4" id="message-list" ref={messageListEl}>
         <div>{messageList}</div>
       </div>
-      <div className="mt-auto px-5 py-3">
+      <div className="mt-auto px-7 py-3">
         <FormikProvider value={f}>
-          <Form onSubmit={f.handleSubmit} onReset={f.handleReset} className="py-1 border rounded-2">
+          <Form onSubmit={f.handleSubmit} onReset={f.handleReset} className="py-1 border rounded-2 my-1 mr-sm-2">
             <Field
               as={Form.Control}
               placeholder={t('labels.messages.input')}
@@ -73,7 +73,7 @@ const MessageBox = () => {
               className="border-0 p-0 ps-2"
             />
             <Button variant="group-vertical" type="submit" disabled={!f.isValid || !f.dirty}>
-              <ArrowRightSquare size={20} />
+              <ArrowRightSquare size={18} />
               <span className="visually-hidden">{t('buttons.submit')}</span>
             </Button>
           </Form>

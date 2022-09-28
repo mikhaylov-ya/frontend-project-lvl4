@@ -26,7 +26,7 @@ const init = async (socket) => {
     });
 
   const rollbarConfig = {
-    accessToken: '400fc310414d4d9b884c062b1bcb18b8',
+    accessToken: process.env.ROLLBAR_TOKEN,
     environment: 'production',
   };
 
