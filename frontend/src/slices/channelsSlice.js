@@ -17,7 +17,10 @@ const channelsSlice = createSlice({
     builder
       .addCase(addChannel, channelsAdapter.addOne)
       .addCase(addChannels, channelsAdapter.setAll)
-      .addCase(removeChannel, channelsAdapter.removeOne)
+      .addCase(removeChannel, (state, action) => {
+        channelsAdapter.removeOne(state, action);
+        if (state.activeChannel === action.payload) state.activeChannel = 1;
+      })
       .addCase(toggleChannel, (state, { payload }) => { state.activeChannel = payload; })
       .addCase(renameChannel, (state, { payload }) => {
         const target = Object.values(state.entities).find((ch) => ch.id === payload.id);

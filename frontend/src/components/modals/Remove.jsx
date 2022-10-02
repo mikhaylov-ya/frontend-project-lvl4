@@ -2,21 +2,18 @@ import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import React from 'react';
 import useApi from '../../hooks/useApi.jsx';
-import { toggleChannel } from '../../slices/channelsSlice.js';
 
 const Remove = ({ closeModal }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const socket = useApi();
+  const api = useApi();
   const { channelId: id } = useSelector((state) => state.modals);
   const notify = () => toast.success(t('toasts.remove'));
 
   const removeChannel = () => {
-    socket.removeChannel({ id });
-    dispatch(toggleChannel(1)); // navigate to general channel
+    api.removeChannel({ id });
     closeModal();
     notify();
   };
